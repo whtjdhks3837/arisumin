@@ -4,13 +4,11 @@
 ![mainImage](./main.jpg)
 
 ## Member
----
 | Programmer | Designer |
 | :--------: | :------: |
 |    조서완     |   한수민    |
 |    채명준     |    -     |
 
 ## Contact Us
----
 - 조서완 qowod77@naver.com
 - 채명준 cmj9579@naver.com
