@@ -7,8 +7,10 @@
 | Programmer | Designer |
 | :--------: | :------: |
 |    조서완     |   한수민    |
-|    채명준     |    -     |
+|    채명준     |    류혜린     |
 
 ## Contact Us
 - 조서완 qowod77@naver.com
 - 채명준 cmj9579@naver.com
+- 한수민 gkstnals17@naver.com
+- 류혜린 hrrnn@naver.com
