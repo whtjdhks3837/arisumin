@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/map_info_layout_bg"
+        android:paddingTop="11dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="3dp">
+
+            <ImageView
+                android:id="@+id/btn_open_close"
+                android:layout_width="17dp"
+                android:layout_height="6dp"
+                android:src="@drawable/bt_map_up"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/address_simple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:text="@string/map_info_address_simple"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_open_close" />
+
+            <ImageView
+                android:id="@+id/qr_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="21dp"
+                android:src="@drawable/bt_map_qrcode"
+                app:layout_constraintBottom_toBottomOf="@id/address_simple"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/address_simple" />
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="서울특별시 성북구 종암동 16-8"
+                android:textSize="13dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/address_simple" />
+
+            <TextView
+                android:id="@+id/distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/map_info_distance"
+                android:textSize="14dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/address" />
+
+            <TextView
+                android:id="@+id/kcal"
+                android:layout_width="127dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="6dp"
+                android:background="@color/colorSoftBlue"
+                android:gravity="center"
+                android:text="약 8kcal 소모"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/distance" />
+
+
+            <TextView
+                android:id="@+id/working_time"
+                android:layout_width="88dp"
+                android:layout_height="27dp"
+                android:background="@drawable/map_info_working_time_bg"
+                android:gravity="center"
+                android:text="걸음 8분"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="@id/kcal"
+                app:layout_constraintEnd_toStartOf="@id/kcal"
+                app:layout_constraintTop_toTopOf="@id/kcal" />
+
+            <TextView
+                android:id="@+id/visit_count"
+                android:layout_width="88dp"
+                android:layout_height="27dp"
+                android:background="@drawable/map_info_visit_count_bg"
+                android:gravity="center"
+                android:text="0번 방문"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="@id/kcal"
+                app:layout_constraintStart_toEndOf="@id/kcal"
+                app:layout_constraintTop_toTopOf="@id/kcal" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="18.5dp"
+                android:background="@color/colorWhite"
+                app:layout_constraintBottom_toBottomOf="@id/working_time"
+                app:layout_constraintStart_toEndOf="@id/working_time"
+                app:layout_constraintTop_toTopOf="@id/working_time" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="18.5dp"
+                android:background="@color/colorWhite"
+                app:layout_constraintBottom_toBottomOf="@id/visit_count"
+                app:layout_constraintEnd_toStartOf="@id/visit_count"
+                app:layout_constraintTop_toTopOf="@id/visit_count" />
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="12.5dp"
+                android:layout_marginTop="12.5dp"
+                android:layout_marginEnd="12.5dp"
+                android:background="@color/colorSoftBlue"
+                app:layout_constraintTop_toBottomOf="@id/kcal" />
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="11.5dp"
+                android:text="수질 검사 상세표"
+                android:textColor="@color/colorDeepBlack"
+                android:textSize="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line" />
+
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="16dp"
+                android:text="측정 일시"
+                android:textColor="@color/colorSoftBlack"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text" />
+
+            <TextView
+                android:id="@+id/measure_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="2019-09-03 11:00"
+                android:textColor="@color/colorSoftBlack"
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="@id/text1"
+                app:layout_constraintStart_toEndOf="@id/text1"
+                app:layout_constraintTop_toTopOf="@id/text1" />
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="11dp"
+                android:text="측정결과"
+                android:textColor="@color/colorSoftBlack"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:background="@drawable/map_info_measure_result_bg"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:text="마시기 적합"
+                android:textColor="@color/colorDeepBlue"
+                android:textSize="13dp"
+                app:layout_constraintBottom_toBottomOf="@id/text2"
+                app:layout_constraintStart_toEndOf="@id/text2"
+                app:layout_constraintTop_toTopOf="@id/text2" />
+
+            <RadioGroup
+                android:id="@+id/measure_btn_group"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="14dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/text2">
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="33dp"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/map_info_measure_left_button_selector"
+                    android:button="@null"
+                    android:elevation="3dp"
+                    android:gravity="center"
+                    android:text="탁도"
+                    android:textColor="@color/colorSoftBlack"
+                    android:textSize="15dp" />
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="33dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/map_info_measure_middle_button_selector"
+                    android:button="@null"
+                    android:elevation="3dp"
+                    android:gravity="center"
+                    android:text="잔류염소"
+                    android:textColor="@color/colorSoftBlack"
+                    android:textSize="15dp" />
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="33dp"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/map_info_measure_right_button_selector"
+                    android:button="@null"
+                    android:elevation="3dp"
+                    android:gravity="center"
+                    android:text="pH"
+                    android:textColor="@color/colorSoftBlack"
+                    android:textSize="15dp" />
+            </RadioGroup>
+
+            <FrameLayout
+                android:id="@+id/measure_detail"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="14dp"
+                android:layout_marginBottom="17dp"
+                android:background="@drawable/measure_detail_bg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/measure_btn_group">
+
+            </FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
