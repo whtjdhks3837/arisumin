@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">arisumin</string>
+    <string name="naver_map_client">lneq1jlqdb</string>
+
+    <string name="map_info_address_simple">%1$s 음수대</string>
+    <string name="map_info_distance">%1$dm 떨어진 곳에 아리수 음수대가 있어요!</string>
 </resources>
