@@ -9,4 +9,7 @@
     <color name="colorDeepBlack">#262626</color>
     <color name="colorSoftBlack">#454545</color>
     <color name="colorGray94">#f0f0f0</color>
+    <color name="colorGray9D">#9d9d9d</color>
+    <color name="colorGrayF8">#f8f8f8</color>
+    <color name="colorSkyBlue">#f4fbff</color>
 </resources>

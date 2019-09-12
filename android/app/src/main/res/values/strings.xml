@@ -4,4 +4,6 @@
 
     <string name="map_info_address_simple">%1$s 음수대</string>
     <string name="map_info_distance">%1$dm 떨어진 곳에 아리수 음수대가 있어요!</string>
+
+    <string name="stamp_notice">아리 쿠폰 적립 이용 안내\n\n한 음수대에서 1일 1회 적립 가능합니다.\n\n아리수 음수대에서 물을 마시고 음수대에 붙어있는 QR코드를 찍으면 스탬프 1개가 적립됩니다.\n\n스탬프 10개를 모으면 물품을 교환할 수 있는 바코드를 제공합니다.\n\n아리 쿠폰을 모아 건강을 챙겨보세요!</string>
 </resources>
