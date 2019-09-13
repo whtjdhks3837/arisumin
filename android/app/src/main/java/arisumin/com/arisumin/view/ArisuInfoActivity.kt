@@ -70,9 +70,9 @@ class ArisuInfoActivity : BaseActivity<ActivityArisuInfoBinding>() {
     }
 }
 
-class ArisuInfoPagerAdapter<T : Any>(private val infoList : List<T>, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+class ArisuInfoPagerAdapter(private val infoList : List<ArisuInfoData>, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
-        return ArisuInfoPagerList.newInstance(infoList[position] as ArisuInfoData)
+        return ArisuInfoPagerList.newInstance(infoList[position])
     }
 
     override fun getCount(): Int {
