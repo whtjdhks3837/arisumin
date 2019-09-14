@@ -4,7 +4,6 @@ import arisumin.com.arisumin.model.WaterSpot
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.overlay.Marker
 
-
 object MarkerManager {
 
     fun createMarkers(waterSpots: List<WaterSpot>, callback: (List<Marker>) -> Unit) =
@@ -13,7 +12,7 @@ object MarkerManager {
                 waterSpots.forEach {
                     makers += Marker().apply {
                         position = LatLng(it.lat, it.lng)
-                        tag = it.tmp
+                        tag = it
                     }
                 }
                 callback.invoke(makers)
