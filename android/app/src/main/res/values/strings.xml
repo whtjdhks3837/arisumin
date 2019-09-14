@@ -3,5 +3,16 @@
     <string name="naver_map_client">lneq1jlqdb</string>
 
     <string name="map_info_address_simple">%1$s 음수대</string>
+    <string name="map_info_address">%1$s</string>
     <string name="map_info_distance">%1$dm 떨어진 곳에 아리수 음수대가 있어요!</string>
+    <string name="map_non_click_marker">
+        <font color="#262626"><b><big>음수대를 선택해주세요.\n</big></b></font>음수대에서 아리수를 마시고 스탬프를 얻어보세요
+    </string>
+    <string name="main_my_info">%1$s 님 반갑습니다!\n아리수와 함께 건강해지세요</string>
+    <string name="remaining_intake">%1$f%</string>
+    <string name="figure_intake"><![CDATA[<font color="#5a86e0"><big><big><big>%1$s</big></big></big></font> L]]></string>
+    <string name="figure_recommend"><![CDATA[<font color="#5a86e0"><big><big><big>%1$s</big></big></big></font> L]]></string>
+    <string name="figure_goal"><![CDATA[<font color="#5a86e0"><big><big><big>%1$d</big></big></big></font> %%]]></string>
+    <string name="figure_stamp"><![CDATA[<font color="#5a86e0"><big><big><big>%1$d</big></big></big></font> 개]]></string>
+    <string name="map_bottom_sheet_visit">%1$d번 방문</string>
 </resources>
