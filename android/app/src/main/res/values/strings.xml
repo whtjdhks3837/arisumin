@@ -1,10 +1,6 @@
 <resources>
     <string name="app_name">arisumin</string>
     <string name="naver_map_client">lneq1jlqdb</string>
-    <string name="map_info_address_simple">%1$s 음수대</string>
-    <string name="map_info_distance">%1$dm 떨어진 곳에 아리수 음수대가 있어요!</string>
-    <string name="main_my_info">%1$s님의 하루 <b>물 권장 섭취량 %1$dL</b>\n아리수와 함께 건강해지세요!</string>
-    <string name="remaining_intake">%1$f%</string>
     <string name="arisu_info_page_1_description">아리수는 고구려 때 한강을 부르던 말로\n평생을 마셔도 좋은\n<b>서울시 수돗물</b>의 이름입니다.</string>
     <string name="arisu_info_page_2_description">수질자동감시시스템(SWN)을 통해\n건강하고 깨끗하게 운영되고 있고\n실시간으로 수질정보를 얻을 수 있어요.</string>
     <string name="arisu_info_page_3_description">무거운 물병을 들고 다니지 않아도\n시원한 물을 마실 수 있어요.</string>

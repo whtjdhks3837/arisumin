@@ -3,42 +3,80 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:src="@drawable/logo_small_input"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:src="@drawable/arisumin"
+            app:layout_constraintBottom_toBottomOf="@id/logo"
+            app:layout_constraintStart_toEndOf="@id/logo" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.165" />
 
         <TextView
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="22dp"
-            android:layout_marginTop="55dp"
+            android:fontFamily="@font/notosans_semi_bold"
+            android:text="환영합니다!"
+            android:textColor="@color/colorLightBlue"
+            android:textSize="22dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guideline" />
+
+        <TextView
+            android:id="@+id/text5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
             android:fontFamily="@font/notosans_medium"
-            android:text="사용자 정보를 알려주세요."
-            android:textColor="@color/colorNationsBlue"
+            android:text="당신에 대해 알려주세요."
+            android:textColor="@color/colorLightBlue"
             android:textSize="21dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/text" />
 
         <TextView
             android:id="@+id/text2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="22dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/notosans_light"
             android:text="하루 물 권장 섭취량을 계산하기 위해 사용됩니다."
             android:textColor="@color/colorDeepBlack"
-            android:textSize="15dp"
+            android:textSize="13dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text" />
+            app:layout_constraintTop_toBottomOf="@+id/text5" />
 
         <TextView
             android:id="@+id/text3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="22dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="49dp"
             android:fontFamily="@font/notosans_regular"
             android:text="이름"
+            android:textColor="@color/colorGray20"
             android:textSize="14dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text2" />
@@ -49,9 +87,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="34.5dp"
             android:layout_marginEnd="40dp"
+            android:backgroundTint="@color/colorNationsBlue"
             android:fontFamily="@font/notosans_regular"
             android:maxLength="10"
             android:maxLines="1"
+            android:textColor="@color/colorGray20"
+            android:textCursorDrawable="@null"
             app:layout_constraintBottom_toBottomOf="@id/text3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/text3"
@@ -65,6 +106,7 @@
             android:layout_marginTop="40dp"
             android:fontFamily="@font/notosans_regular"
             android:text="몸무게"
+            android:textColor="@color/colorGray20"
             android:textSize="14dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text3" />
@@ -74,31 +116,46 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="22.5dp"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="55.7dp"
+            android:backgroundTint="@color/colorNationsBlue"
             android:fontFamily="@font/notosans_regular"
             android:inputType="number"
             android:maxLength="3"
             android:maxLines="1"
+            android:textColor="@color/colorGray20"
+            android:textCursorDrawable="@null"
             app:layout_constraintBottom_toBottomOf="@id/text4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/text4"
             app:layout_constraintTop_toTopOf="@+id/text4" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="25dp"
+            android:fontFamily="@font/notosans_regular"
+            android:text="Kg"
+            android:textColor="@color/colorGray20"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/text4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text4" />
+
+        <TextView
             android:id="@+id/confirm"
             android:layout_width="0dp"
             android:layout_height="39dp"
             android:layout_marginStart="17dp"
-            android:layout_marginTop="49dp"
             android:layout_marginEnd="17dp"
+            android:layout_marginBottom="30dp"
             android:background="@drawable/my_info_confirm_bg"
             android:fontFamily="@font/notosans_light"
             android:gravity="center"
             android:text="확인"
             android:textColor="@color/colorDeepBlack"
             android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text4" />
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
