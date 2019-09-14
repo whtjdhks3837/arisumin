@@ -1,14 +1,25 @@
 package arisumin.com.arisumin.view.map
 
+import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
+import android.view.WindowManager.*
+import android.view.WindowManager.LayoutParams.*
 import arisumin.com.arisumin.R
+import arisumin.com.arisumin.bindColor
 import arisumin.com.arisumin.controller.MarkerManager
 import arisumin.com.arisumin.databinding.ActivityMapBinding
+import arisumin.com.arisumin.datasource.PREF_NAME
+import arisumin.com.arisumin.datasource.PreferenceModel
 import arisumin.com.arisumin.model.WaterSpot
+import arisumin.com.arisumin.model.WaterSpots
+import arisumin.com.arisumin.readJsonFromAsset
 import arisumin.com.arisumin.toDp
 import arisumin.com.arisumin.view.base.BaseActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.gson.Gson
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
@@ -26,6 +37,7 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
     }
 
     override val resourceId: Int = R.layout.activity_map
+    private val pref by lazy { MapPref(this, PREF_NAME) }
 
     private val mapFragment: MapFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.map) as MapFragment?
@@ -41,16 +53,19 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
     private val iconMarkerOff = OverlayImage.fromResource(R.drawable.mappin_off)
     private val iconMarkerOn = OverlayImage.fromResource(R.drawable.mappin_on)
 
-    private val waterSpots = listOf(
-            WaterSpot(37.388771, 126.958036, "a"), WaterSpot(37.390297, 126.956759, "b"))
+    private val waterSpots by lazy {
+        Gson().fromJson(readJsonFromAsset("arisu.json"), WaterSpots::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setFlags(FLAG_LAYOUT_NO_LIMITS, FLAG_LAYOUT_NO_LIMITS)
         initMap()
         fusedLocationSource = FusedLocationSource(this, REQ_LOCATION)
         binding.bottomSheet.let {
             BottomSheetBehavior.from(it.root).peekHeight = toDp(this, DEFAULT_BOTTOM_SHEET_HEIGHT)
         }
+        binding.back.setOnClickListener { finish() }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
@@ -67,7 +82,7 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
             locationSource = fusedLocationSource
             locationTrackingMode = LocationTrackingMode.Follow
         }
-        MarkerManager.createMarkers(waterSpots) { markers ->
+        MarkerManager.createMarkers(waterSpots.list) { markers ->
             drawMarkers(naverMap, markers)
         }
     }
@@ -84,9 +99,10 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
         if (it is Marker) {
             showMarkerInfoView()
             if (!isSelectedMarker(it)) {
+                val waterSpot = it.tag as WaterSpot
                 naverMap?.locationOverlay?.position?.let { pos ->
                     MarkerManager.getDistance(pos, it.position).run {
-                        bindMapInfo(it, this)
+                        bindMapInfo(waterSpot, this)
                     }
                 }
                 selectedMarker?.icon = iconMarkerOff
@@ -96,11 +112,16 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
         false
     }
 
-    private fun bindMapInfo(marker: Marker, distance: Int) {
+    private fun bindMapInfo(waterSpot: WaterSpot, distance: Int) {
+        pref.index = waterSpot.index
         binding.bottomSheet.addressSimple.text =
-                getString(R.string.map_info_address_simple, marker.tag)
+                getString(R.string.map_info_address_simple, waterSpot.name)
+        binding.bottomSheet.address.text =
+                getString(R.string.map_info_address_simple, waterSpot.address)
         binding.bottomSheet.distance.text =
                 getString(R.string.map_info_distance, distance)
+        binding.bottomSheet.visitCount.text =
+                getString(R.string.map_bottom_sheet_visit, pref.visitCount)
     }
 
     private fun showMarkerInfoView() {
@@ -111,4 +132,9 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
     }
 
     private fun isSelectedMarker(marker: Marker) = selectedMarker === marker
+}
+
+class MapPref(context: Context, name: String) : PreferenceModel(context, name) {
+    var index = -1
+    val visitCount by intPreference("index $index", 0)
 }
