@@ -14,17 +14,14 @@ import arisumin.com.arisumin.databinding.DialogDrinkBinding
 import arisumin.com.arisumin.datasource.PREF_NAME
 import arisumin.com.arisumin.datasource.PreferenceModel
 import arisumin.com.arisumin.htmlText
+import arisumin.com.arisumin.log
 import arisumin.com.arisumin.startActivity
 import arisumin.com.arisumin.view.base.BaseActivity
 import arisumin.com.arisumin.view.base.BaseDialogFragment
 import arisumin.com.arisumin.view.map.MapActivity
+import java.lang.IllegalStateException
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
-
-    companion object {
-        const val DRINK_PERIOD = 7
-    }
-
     override val resourceId = R.layout.activity_main
     private val statusBarColor by bindColor(R.color.colorPaleBlue)
 
@@ -32,40 +29,62 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private var oneDrinkAmount = 0.0f
     private val drinkDialog = DrinkDialog()
 
+    private val cupLotties =
+            listOf("cup1.json", "cup2.json", "cup3.json", "cup4.json", "cup5.json")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.statusBarColor = statusBarColor
-        oneDrinkAmount = getOneDayRecommend().toFloat() / DRINK_PERIOD
+        oneDrinkAmount = String.format("%.1f", pref.onceDrinkAmount).toFloat()
         initInfo()
         onDrinkClick()
         onWaterSpotClick()
         onStampClick()
         onInfoClick()
+        updateCupLottie()
         drinkDialog.drinkCallback = onDrinkCallback()
+    }
+
+    private fun updateCupLottie() {
+        if (pref.intake <= 0.0f) {
+            return
+        }
+        if (pref.oneDayRecommend <= pref.intake) {
+            log("${pref.oneDayRecommend} ${pref.intake}")
+            binding.waterLottie.apply {
+                setAnimation(cupLotties.last())
+                playAnimation()
+            }
+            return
+        }
+        val section = (pref.oneDayRecommend / cupLotties.size).toFloat()
+        val level = getLevel(section)
+        binding.waterLottie.apply {
+            setAnimation(cupLotties[level])
+            playAnimation()
+        }
+    }
+
+    private fun getLevel(section: Float): Int {
+        var intake = pref.intake
+        for (i in cupLotties.indices) {
+            if (section >= intake) {
+                return i
+            }
+            intake -= section
+        }
+        throw IllegalStateException()
     }
 
     private fun initInfo() {
         binding.info.text = getString(R.string.main_my_info, pref.name)
-        binding.figureIntake.text = htmlText(R.string.figure_intake, getIntake())
-        binding.figureRecommend.text = htmlText(R.string.figure_recommend, getOneDayRecommend())
-        binding.figureGoal.text = htmlText(R.string.figure_goal, getGoal())
-        binding.figureStamp.text = htmlText(R.string.figure_stamp, getStamp())
+        binding.figureIntake.text =
+                htmlText(R.string.figure_intake, String.format("%.1f", pref.intake))
+        binding.figureRecommend.text =
+                htmlText(R.string.figure_recommend, String.format("%.1f", pref.oneDayRecommend))
+        binding.figureGoal.text = htmlText(R.string.figure_goal, pref.goal)
+        binding.figureStamp.text = htmlText(R.string.figure_stamp, pref.stamp)
     }
-
-    private fun getIntake() = String.format("%.1f", pref.intake)
-
-    private fun getOneDayRecommend() = String.format("%.1f", pref.weight * 0.03)
-
-    private fun getGoal(): Int {
-        val intake = getIntake().toDouble()
-        if (intake <= 0.0) {
-            return 0
-        }
-        val recommend = getOneDayRecommend().toDouble()
-        return ((intake / recommend) * 100).toInt()
-    }
-
-    private fun getStamp() = pref.stamp
 
     private fun onDrinkClick() = binding.drinkBtn.setOnClickListener {
         drinkDialog.show(supportFragmentManager, null)
@@ -85,8 +104,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private fun onDrinkCallback(): () -> Unit = {
         pref.intake += oneDrinkAmount
-        binding.figureIntake.text = htmlText(R.string.figure_intake, getIntake())
-        binding.figureGoal.text = htmlText(R.string.figure_goal, getGoal())
+        initInfo()
+        updateCupLottie()
     }
 }
 
@@ -113,8 +132,23 @@ class DrinkDialog : BaseDialogFragment<DialogDrinkBinding>() {
 }
 
 class MainPref(context: Context, name: String) : PreferenceModel(context, name) {
+
+    companion object {
+        const val DRINK_PERIOD = 7
+    }
+
     var name by stringPreference("name", null)
     var weight by intPreference("weight", 0)
     var intake by floatPreference("intake", 0.0f)
     var stamp by intPreference("stamp", 0)
+
+    val oneDayRecommend = weight * 0.03
+    val onceDrinkAmount = oneDayRecommend / DRINK_PERIOD
+    val goal: Int
+        get() {
+            if (intake <= 0.0) {
+                return 0
+            }
+            return ((intake / oneDayRecommend) * 100).toInt()
+        }
 }
