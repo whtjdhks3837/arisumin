@@ -19,8 +19,9 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="9dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_open_close">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -176,7 +177,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="11dp"
-                    android:text="측정결과"
+                    android:text="측정 결과"
                     android:textColor="@color/colorSoftBlack"
                     android:textSize="14dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -208,6 +209,7 @@
                     app:layout_constraintTop_toBottomOf="@id/text2">
 
                     <RadioButton
+                        android:id="@+id/ntu_btn"
                         android:layout_width="0dp"
                         android:layout_height="33dp"
                         android:layout_marginStart="1dp"
@@ -222,6 +224,7 @@
                         android:textSize="15dp" />
 
                     <RadioButton
+                        android:id="@+id/chlorine_btn"
                         android:layout_width="0dp"
                         android:layout_height="33dp"
                         android:layout_weight="1"
@@ -234,6 +237,7 @@
                         android:textSize="15dp" />
 
                     <RadioButton
+                        android:id="@+id/ph_btn"
                         android:layout_width="0dp"
                         android:layout_height="33dp"
                         android:layout_marginStart="1dp"
@@ -248,18 +252,18 @@
                         android:textSize="15dp" />
                 </RadioGroup>
 
-                <FrameLayout
+                <include
                     android:id="@+id/measure_detail"
+                    layout="@layout/water_quality_graph"
                     android:layout_width="match_parent"
                     android:layout_height="240dp"
+                    android:layout_marginBottom="17dp"
                     android:layout_marginStart="14dp"
                     android:layout_marginEnd="14dp"
-                    android:layout_marginBottom="17dp"
-                    android:background="@drawable/measure_detail_bg"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/measure_btn_group">
-
-                </FrameLayout>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/measure_btn_group" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

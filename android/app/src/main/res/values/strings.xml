@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">arisumin</string>
     <string name="naver_map_client">lneq1jlqdb</string>
-    <string name="arisu_info_page_1_description">아리수는 고구려 때 한강을 부르던 말로\n평생을 마셔도 좋은\n<b>서울시 수돗물</b>의 이름입니다.</string>
+    <string name="arisu_info_page_1_description">
+        <![CDATA[아리수는 고구려 때 한강을 부르던 말로\n평생을 마셔도 좋은\n
+        <font color="#5a86e0"><b>서울시 수돗물</b></font>의 이름입니다.]]>
+    </string>
     <string name="arisu_info_page_2_description">수질자동감시시스템(SWN)을 통해\n건강하고 깨끗하게 운영되고 있고\n실시간으로 수질정보를 얻을 수 있어요.</string>
     <string name="arisu_info_page_3_description">무거운 물병을 들고 다니지 않아도\n시원한 물을 마실 수 있어요.</string>
     <string name="map_info_address_simple">%1$s 음수대</string>
@@ -17,5 +20,8 @@
     <string name="figure_goal"><![CDATA[<font color="#5a86e0"><big><big><big>%1$d</big></big></big></font> %%]]></string>
     <string name="figure_stamp"><![CDATA[<font color="#5a86e0"><big><big><big>%1$d</big></big></big></font> 개]]></string>
     <string name="map_bottom_sheet_visit">%1$d번 방문</string>
+    <string name="ntu_info">탁도란 물의 흐린 정도로\n수치가 낮을 수록 깨끗한 물이에요</string>
+    <string name="chlorine_info">잔류염소 0.1mg이상이 안전한 물,\n0.3mg이상은 소독제 냄새가 날 수 있어요</string>
+    <string name="pH_info">물의 산성을 나타내는 말로\n아리수는 중성(7)에 가깝게 공급해요</string>
 </resources>
 
