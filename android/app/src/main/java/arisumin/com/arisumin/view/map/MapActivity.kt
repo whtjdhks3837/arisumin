@@ -1,14 +1,10 @@
 package arisumin.com.arisumin.view.map
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
-import android.view.WindowManager.*
-import android.view.WindowManager.LayoutParams.*
+import android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
 import arisumin.com.arisumin.R
-import arisumin.com.arisumin.bindColor
 import arisumin.com.arisumin.controller.MarkerManager
 import arisumin.com.arisumin.databinding.ActivityMapBinding
 import arisumin.com.arisumin.datasource.PREF_NAME
@@ -27,7 +23,6 @@ import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
-
 
 class MapActivity : BaseActivity<ActivityMapBinding>() {
 
@@ -56,15 +51,30 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
     private val waterSpots by lazy {
         Gson().fromJson(readJsonFromAsset("arisu.json"), WaterSpots::class.java)
     }
+    private val measureInfos by lazy {
+        listOf(
+                WaterMeasure(getString(R.string.ntu_info), "탁도\n(NTU)", 5f, Pair(0f, 0.5f)),
+                WaterMeasure(getString(R.string.chlorine_info), "잔류염소\n(Mg/L)", 5f, Pair(0.1f, 4f)),
+                WaterMeasure(getString(R.string.pH_info), "pH", 10f, Pair(5.8f, 8.5f)))
+    }
+
+    private val bottomSheet by lazy { binding.bottomSheet }
+    private val measureBtnGroup by lazy { binding.bottomSheet.measureBtnGroup }
+    private val measureDetail by lazy { bottomSheet.measureDetail }
+    private var graphAreaWidth = 0
+
+    private val tmpValues = listOf(0.06f, 3f, 7.1f)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(FLAG_LAYOUT_NO_LIMITS, FLAG_LAYOUT_NO_LIMITS)
+        measureDetail.graphArea.post { graphAreaWidth = measureDetail.graphArea.width }
+
         initMap()
         fusedLocationSource = FusedLocationSource(this, REQ_LOCATION)
-        binding.bottomSheet.let {
-            BottomSheetBehavior.from(it.root).peekHeight = toDp(this, DEFAULT_BOTTOM_SHEET_HEIGHT)
-        }
+        BottomSheetBehavior.from(bottomSheet.root).peekHeight =
+                toDp(this, DEFAULT_BOTTOM_SHEET_HEIGHT)
+
         binding.back.setOnClickListener { finish() }
     }
 
@@ -105,23 +115,16 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
                         bindMapInfo(waterSpot, this)
                     }
                 }
+                measureBtnGroup.setOnCheckedChangeListener { _, id ->
+                    val index = measureBtnGroup.indexOfChild(findViewById(id))
+                    bindGraph(waterSpot, index)
+                }
+                measureBtnGroup.check(R.id.ntu_btn)
                 selectedMarker?.icon = iconMarkerOff
                 selectedMarker = it.apply { icon = iconMarkerOn }
             }
         }
         false
-    }
-
-    private fun bindMapInfo(waterSpot: WaterSpot, distance: Int) {
-        pref.index = waterSpot.index
-        binding.bottomSheet.addressSimple.text =
-                getString(R.string.map_info_address_simple, waterSpot.name)
-        binding.bottomSheet.address.text =
-                getString(R.string.map_info_address_simple, waterSpot.address)
-        binding.bottomSheet.distance.text =
-                getString(R.string.map_info_distance, distance)
-        binding.bottomSheet.visitCount.text =
-                getString(R.string.map_bottom_sheet_visit, pref.visitCount)
     }
 
     private fun showMarkerInfoView() {
@@ -131,6 +134,32 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
         }
     }
 
+    private fun bindMapInfo(waterSpot: WaterSpot, distance: Int) {
+        pref.index = waterSpot.index
+        bottomSheet.addressSimple.text =
+                getString(R.string.map_info_address_simple, waterSpot.name)
+        bottomSheet.address.text =
+                getString(R.string.map_info_address_simple, waterSpot.address)
+        bottomSheet.distance.text =
+                getString(R.string.map_info_distance, distance)
+        bottomSheet.visitCount.text =
+                getString(R.string.map_bottom_sheet_visit, pref.visitCount)
+    }
+
+    private fun bindGraph(waterSpot: WaterSpot, index: Int) {
+        val safeArea = "${measureInfos[index].safeArea.first} ~ ${measureInfos[index].safeArea.second}"
+        measureDetail.info.text = measureInfos[index].info
+        measureDetail.species.text = measureInfos[index].name
+        measureDetail.safeArea.text = safeArea
+        measureDetail.measureValue.text = tmpValues[index].toString()
+        drawMeasureBar(tmpValues[index] / measureInfos[index].maxValue)
+    }
+
+    private fun drawMeasureBar(barWidthPer: Float) {
+        measureDetail.bar.layoutParams.width = (graphAreaWidth * barWidthPer).toInt()
+        measureDetail.bar.requestLayout()
+    }
+
     private fun isSelectedMarker(marker: Marker) = selectedMarker === marker
 }
 
@@ -138,3 +167,10 @@ class MapPref(context: Context, name: String) : PreferenceModel(context, name) {
     var index = -1
     val visitCount by intPreference("index $index", 0)
 }
+
+data class WaterMeasure(
+        val info: String,
+        val name: String,
+        val maxValue: Float,
+        val safeArea: Pair<Float, Float>
+)
