@@ -8,6 +8,7 @@ import arisumin.com.arisumin.databinding.ActivityMyInfoBinding
 import arisumin.com.arisumin.datasource.PREF_NAME
 import arisumin.com.arisumin.datasource.PreferenceModel
 import arisumin.com.arisumin.startActivity
+import arisumin.com.arisumin.startActivityWithFinish
 import arisumin.com.arisumin.toast
 import arisumin.com.arisumin.view.base.BaseActivity
 import arisumin.com.arisumin.view.main.MainActivity
@@ -20,10 +21,10 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>() {
     private val pref by lazy { MyInfoPref(this, PREF_NAME) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (pref.isSetting) {
-            startActivity<MainActivity>()
-        }
         super.onCreate(savedInstanceState)
+        if (pref.isSetting) {
+            startActivityWithFinish<MainActivity>()
+        }
         window.statusBarColor = statusBarColor
         binding.confirm.setOnClickListener {
             if (validateInput()) {
