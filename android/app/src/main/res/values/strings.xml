@@ -1,9 +1,63 @@
 <resources>
     <string name="app_name">arisumin</string>
     <string name="naver_map_client">lneq1jlqdb</string>
-
     <string name="map_info_address_simple">%1$s 음수대</string>
     <string name="map_info_distance">%1$dm 떨어진 곳에 아리수 음수대가 있어요!</string>
+    <string name="main_my_info">%1$s님의 하루 <b>물 권장 섭취량 %1$dL</b>\n아리수와 함께 건강해지세요!</string>
+    <string name="remaining_intake">%1$f%</string>
 
-    <string name="stamp_notice">아리 쿠폰 적립 이용 안내\n\n한 음수대에서 1일 1회 적립 가능합니다.\n\n아리수 음수대에서 물을 마시고 음수대에 붙어있는 QR코드를 찍으면 스탬프 1개가 적립됩니다.\n\n스탬프 10개를 모으면 물품을 교환할 수 있는 바코드를 제공합니다.\n\n아리 쿠폰을 모아 건강을 챙겨보세요!</string>
+    <string name="arisu_info_page_1_description">
+        <![CDATA[아리수는 고구려 때 한강을 부르던 말로<br>
+         평생을 마셔도 좋은<br>
+         <b><font color=#5a86e0>서울시 수돗물</font></b>의 이름입니다.]]>
+    </string>
+    <string name="arisu_info_page_2_description">
+        <![CDATA[<b><font color=#5a86e0>수질자동감시시스템(SWN)을 통해</font></b><br>
+        건강하고 깨끗하게 운영되고 있고<br>
+        실시간으로 수질정보를 얻을 수 있어요.]]>
+    </string>
+    <string name="arisu_info_page_3_description">
+        <![CDATA[무거운 물병을 들고 다니지 않아도<br>
+        <b><font color=#5a86e0>시원한 물을 마실 수 있어요.</font></b>]]>
+    </string>
+
+    <string name="remainder_notice">
+        <![CDATA[<b><font color=#313131>{}</font></b>번 더 마시면]]>
+    </string>
+    <string name="gift_notice">
+        <![CDATA[<big><big><b><font color=#4d8dd8>{}</font></b></big></big> 가 무료!!]]>
+    </string>
+
+    <string name="stamp_count">
+        <![CDATA[<big><big><big><font color=#4d8dd8>{}</big></big></big></font> 개]]>
+    </string>
+
+    <string name="coupon_count">
+        <![CDATA[<big><big><big><font color=#4d8dd8>{}</big></big></big></font> 개]]>
+    </string>
+
+    <string name="coupon_notice_1">
+        <![CDATA[- 한 음수대에서 <b>1일 1회</b> 적립 가능합니다.]]>
+    </string>
+
+    <string name="coupon_notice_2">
+        <![CDATA[- 아리수 음수대에서 물을 마시고 음수대에 붙어있는 <b>QR코드</b>를 찍으면 스탬프 1개가 적립됩니다.]]>
+    </string>
+
+    <string name="coupon_notice_3">
+        <![CDATA[- 스탬프 10개를 모으면 물품을 교환할 수 있는 바코드를 제공합니다.]]>
+    </string>
+
+    <string name="coupon_name">
+        <![CDATA[<big><big><font color=#262626>{}</font></big></big>]]>
+    </string>
+
+    <string name="coupon_validate_date">
+        <![CDATA[쿠폰 기한 | <font color=#777777>{}</font>]]>
+    </string>
+
+    <string name="coupon_using_place">
+        <![CDATA[사용처 | <font color=#777777>{}</font>]]>
+    </string>
 </resources>
+
