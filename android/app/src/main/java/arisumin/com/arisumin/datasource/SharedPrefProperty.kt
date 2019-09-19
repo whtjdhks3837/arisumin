@@ -17,6 +17,9 @@ open class PreferenceModel(context: Context, name: String) {
     protected fun intPreference(key: String, default: Int = -1) =
             IntSharedPrefProperty(key, default)
 
+    protected fun longPreference(key: String, default: Long = -1L) =
+            LongSharedPrefProperty(key, default)
+
     protected fun booleanPreference(key: String, default: Boolean = false) =
             BooleanSharedPrefProperty(key, default)
 
@@ -47,6 +50,19 @@ class IntSharedPrefProperty(
 
     override fun setValue(thisRef: PreferenceModel, property: KProperty<*>, value: Int) {
         thisRef.pref.edit().putInt(key, value).apply()
+    }
+}
+
+class LongSharedPrefProperty(
+        private val key: String,
+        private val default: Long = -1L
+) : ReadWriteProperty<PreferenceModel, Long> {
+    override fun getValue(thisRef: PreferenceModel, property: KProperty<*>): Long {
+        return thisRef.pref.getLong(key, default)
+    }
+
+    override fun setValue(thisRef: PreferenceModel, property: KProperty<*>, value: Long) {
+        thisRef.pref.edit().putLong(key, value).apply()
     }
 }
 
