@@ -6,6 +6,7 @@
         android:layout_width="match_parent">
 
         <TextView
+            android:fontFamily="@font/notosans_light"
             android:fontFamily="@font/notosans_semi_bold"
             android:id="@+id/textView_arisu_info_pager_item"
             android:layout_height="wrap_content"

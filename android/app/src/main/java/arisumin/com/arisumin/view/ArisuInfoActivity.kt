@@ -3,6 +3,8 @@ package arisumin.com.arisumin.view
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.Html
+import android.text.Html.FROM_HTML_MODE_LEGACY
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -98,6 +100,7 @@ class ArisuInfoPagerList : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_arisu_info_pager_item, container, false)
+        binding.textViewArisuInfoPagerItem.text = Html.fromHtml(arguments?.get("param1") as String)
         binding.textViewArisuInfoPagerItem.text = arguments?.get("param1") as String
         binding.imageViewArisuInfoPagerItem.setImageResource(arguments?.get("param2") as Int)
         return binding.root
