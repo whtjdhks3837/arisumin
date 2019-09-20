@@ -9,6 +9,12 @@ import kotlin.reflect.KProperty
 open class PreferenceModel(context: Context, name: String) {
 
     val pref: SharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE)
+const val PREF_NAME = "arisu"
+
+open class PreferenceModel(context: Context, name: String) {
+
+    internal val pref: SharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE)
+
 
     protected fun stringPreference(key: String, default: String?) =
             StringSharedPrefProperty(key, default)
@@ -21,6 +27,9 @@ open class PreferenceModel(context: Context, name: String) {
 
     protected fun stringSetPreference(key: String, default: Set<String>) =
             StringSetSharedPrefProperty(key, default)
+  
+    protected fun floatPreference(key: String, default: Float = -1.0f) =
+            FloatSharedPrefProperty(key, default)
 }
 
 class StringSharedPrefProperty(
@@ -72,5 +81,16 @@ class StringSetSharedPrefProperty(
 
     override fun setValue(thisRef: PreferenceModel, property: KProperty<*>, value: Set<String>) {
         return thisRef.pref.edit().putStringSet(key, value).apply()
+      
+class FloatSharedPrefProperty(
+        private val key: String,
+        private val default: Float = -1.0f
+) : ReadWriteProperty<PreferenceModel, Float> {
+    override fun getValue(thisRef: PreferenceModel, property: KProperty<*>): Float {
+        return thisRef.pref.getFloat(key, default)
+    }
+
+    override fun setValue(thisRef: PreferenceModel, property: KProperty<*>, value: Float) {
+        thisRef.pref.edit().putFloat(key, value).apply()
     }
 }

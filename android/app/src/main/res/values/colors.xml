@@ -5,7 +5,12 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorDeepBlue">#5a86e0</color>
+    <color name="colorBlue">#4d8dd8</color>
+    <color name="colorNationsBlue">#5a86e0</color>
+    <color name="colorLightBlue">#5491d8</color>
+    <color name="colorPatternsBlue">#dcf4ff</color>
     <color name="colorSoftBlue">#d6f0fb</color>
+    <color name="colorOnahau">#bbe6f9</color>
     <color name="colorDeepBlack">#262626</color>
     <color name="colorSoftBlack">#454545</color>
     <color name="colorZambezi">#585858</color>
@@ -17,4 +22,11 @@
     <color name="colorSuvaGrey">#898989</color>
     <color name="colorLightSkyBlue">#8ed1f6</color>
     <color name="colorGray20">#333333</color>
+    <color name="colorZambezi">#5c5757</color>
+    <color name="colorMatterhorn">#585757</color>
+    <color name="colorGray">#797979</color>
+    <color name="colorGray20">#333333</color>
+    <color name="colorGray94">#fafafa</color>
+    <color name="colorWhiteSmoke">#f5f5f5</color>
+    <color name="colorPaleBlue">#d0eeff</color>
 </resources>

@@ -101,6 +101,7 @@ class ArisuInfoPagerList : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_arisu_info_pager_item, container, false)
         binding.textViewArisuInfoPagerItem.text = Html.fromHtml(arguments?.get("param1") as String)
+        binding.textViewArisuInfoPagerItem.text = arguments?.get("param1") as String
         binding.imageViewArisuInfoPagerItem.setImageResource(arguments?.get("param2") as Int)
         return binding.root
     }

@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">arisumin</string>
     <string name="naver_map_client">lneq1jlqdb</string>
+
     <string name="map_info_address_simple">%1$s 음수대</string>
+    <string name="map_info_address">%1$s</string>
     <string name="map_info_distance">%1$dm 떨어진 곳에 아리수 음수대가 있어요!</string>
     <string name="main_my_info">%1$s님의 하루 <b>물 권장 섭취량 %1$dL</b>\n아리수와 함께 건강해지세요!</string>
     <string name="remaining_intake">%1$f%</string>
@@ -59,5 +61,20 @@
     <string name="coupon_using_place">
         <![CDATA[사용처 | <font color=#777777>{}</font>]]>
     </string>
+
+    <string name="map_non_click_marker">
+        <font color="#262626"><b><big>음수대를 선택해주세요.\n</big></b></font>음수대에서 아리수를 마시고 스탬프를 얻어보세요
+    </string>
+    <string name="main_my_info"><b>%1$s</b> 님 반갑습니다!\n아리수와 함께 건강해지세요</string>
+    <string name="remaining_intake">%1$f%</string>
+    <string name="figure_intake"><![CDATA[<font color="#5a86e0"><big><big><big>%1$s</big></big></big></font> L]]></string>
+    <string name="figure_recommend"><![CDATA[<font color="#5a86e0"><big><big><big>%1$s</big></big></big></font> L]]></string>
+    <string name="figure_goal"><![CDATA[<font color="#5a86e0"><big><big><big>%1$d</big></big></big></font> %%]]></string>
+    <string name="figure_stamp"><![CDATA[<font color="#5a86e0"><big><big><big>%1$d</big></big></big></font> 개]]></string>
+    <string name="map_bottom_sheet_visit">%1$d번 방문</string>
+    <string name="ntu_info">탁도란 물의 흐린 정도로\n수치가 낮을 수록 깨끗한 물이에요</string>
+    <string name="chlorine_info">잔류염소 0.1mg이상이 안전한 물,\n0.3mg이상은 소독제 냄새가 날 수 있어요</string>
+    <string name="pH_info">물의 산성을 나타내는 말로\n아리수는 중성(7)에 가깝게 공급해요</string>
+
 </resources>
 
