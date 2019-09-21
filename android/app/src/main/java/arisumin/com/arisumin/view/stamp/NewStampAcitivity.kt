@@ -1,10 +1,8 @@
-package arisumin.com.arisumin.view
+package arisumin.com.arisumin.view.stamp
 
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
-import android.print.PrintAttributes
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +10,7 @@ import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.MarginLayoutParamsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,13 +26,14 @@ import arisumin.com.arisumin.model.StampCoupon
 import arisumin.com.arisumin.util.ConvertUtil
 import arisumin.com.arisumin.util.ResourceUtil
 import arisumin.com.arisumin.view.base.BaseActivity
-import arisumin.com.arisumin.view.stamp.*
 
 class NewStampAcitivity : BaseActivity<ActivityNewStampBinding>() {
 
     override val resourceId: Int = R.layout.activity_new_stamp
 
-    private val couponPref by lazy { CouponPref(this, "coupon_info") }
+    private val couponPref by lazy {
+        CouponPref(this, "coupon_info")
+    }
 
     private var couponList = mutableListOf<Coupon>()
 
@@ -139,7 +136,8 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
             binding.stampWrapper.apply {
                 layoutParams = stampParams
             }
-            viewHolder = StampViewHolder(binding as ViewStampBinding, context)
+            viewHolder = StampViewHolder(
+                    binding as ViewStampBinding, context)
         } else if (viewType == 1) {
             //Coupon
 
@@ -147,7 +145,8 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
             binding.couponWrapper.apply {
                 layoutParams = couponParams
             }
-            viewHolder = CouponViewHolder(binding as ViewCouponBinding, context)
+            viewHolder = CouponViewHolder(
+                    binding as ViewCouponBinding, context)
         }
         return viewHolder
     }
@@ -187,7 +186,9 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
 
     class StampViewHolder(private var binding: ViewStampBinding, private var context: Context) : ItemViewHolder(binding, context) {
         override fun bindData(data: StampCoupon) {
-            val stampPref by lazy { StampPref(context, "stamp_info") }
+            val stampPref by lazy {
+                StampPref(context, "stamp_info")
+            }
             //TODO sharedPreference
             //var tempCount: Int = stampPref.count
             var tempCount: Int = 5
@@ -225,9 +226,7 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
                 binding.couponUsingPlace.text = resources.ConvertHtml(R.string.coupon_using_place, data.usingPlace)
             }
         }
-
     }
-
 }
 
 class StampPref(context: Context, name: String) : PreferenceModel(context, name) {

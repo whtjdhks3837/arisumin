@@ -1,21 +1,21 @@
-package arisumin.com.arisumin.view
+package arisumin.com.arisumin.view.start
 
-import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Html
-import android.text.Html.FROM_HTML_MODE_LEGACY
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import arisumin.com.arisumin.databinding.ActivityArisuInfoBinding
-import arisumin.com.arisumin.view.base.BaseActivity
-import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.*
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
 import arisumin.com.arisumin.R
+import arisumin.com.arisumin.databinding.ActivityArisuInfoBinding
 import arisumin.com.arisumin.databinding.FragmentArisuInfoPagerItemBinding
+import arisumin.com.arisumin.startActivityWithFinish
+import arisumin.com.arisumin.view.base.BaseActivity
+import arisumin.com.arisumin.view.myinfo.MyInfoActivity
 
 data class ArisuInfoData(
         val text : String,
@@ -31,16 +31,17 @@ class ArisuInfoActivity : BaseActivity<ActivityArisuInfoBinding>() {
 
     private val pageResource : List<ArisuInfoData> by lazy {
         listOf(
-            ArisuInfoData(text1, R.drawable.arisu_explain_01),
-            ArisuInfoData(text2, R.drawable.arisu_explain_02),
-            ArisuInfoData(text3, R.drawable.arisu_explain_03))
+                ArisuInfoData(text1, R.drawable.arisu_explain_01),
+                ArisuInfoData(text2, R.drawable.arisu_explain_02),
+                ArisuInfoData(text3, R.drawable.arisu_explain_03))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding.viewPagerArisuInfo.apply{
-            adapter = ArisuInfoPagerAdapter(pageResource, supportFragmentManager)
+            adapter = ArisuInfoPagerAdapter(pageResource,
+                    supportFragmentManager)
             addOnPageChangeListener(object:ViewPager.OnPageChangeListener{
                 override fun onPageSelected(position: Int) {
                 }
@@ -69,12 +70,16 @@ class ArisuInfoActivity : BaseActivity<ActivityArisuInfoBinding>() {
             updateDotState()
         }
 
+        binding.startButtonArisuInfo.setOnClickListener {
+            startActivityWithFinish<MyInfoActivity>()
+        }
     }
 }
 
 class ArisuInfoPagerAdapter(private val infoList : List<ArisuInfoData>, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
-        return ArisuInfoPagerList.newInstance(infoList[position])
+        return ArisuInfoPagerList.newInstance(
+                infoList[position])
     }
 
     override fun getCount(): Int {

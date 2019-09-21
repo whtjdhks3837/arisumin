@@ -5,10 +5,6 @@ import android.content.SharedPreferences
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-
-open class PreferenceModel(context: Context, name: String) {
-
-    val pref: SharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE)
 const val PREF_NAME = "arisu"
 
 open class PreferenceModel(context: Context, name: String) {
@@ -90,14 +86,16 @@ class BooleanSharedPrefProperty(
 class StringSetSharedPrefProperty(
         private val key: String,
         private val default: Set<String> = emptySet()
-) : ReadWriteProperty<PreferenceModel, Set<String>>{
+) : ReadWriteProperty<PreferenceModel, Set<String>> {
     override fun getValue(thisRef: PreferenceModel, property: KProperty<*>): Set<String> {
         return thisRef.pref.getStringSet(key, default) as Set<String>
     }
 
     override fun setValue(thisRef: PreferenceModel, property: KProperty<*>, value: Set<String>) {
         return thisRef.pref.edit().putStringSet(key, value).apply()
-      
+    }
+}
+
 class FloatSharedPrefProperty(
         private val key: String,
         private val default: Float = -1.0f
