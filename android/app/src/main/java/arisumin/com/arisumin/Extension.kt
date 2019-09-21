@@ -27,7 +27,8 @@ inline fun <reified T : Activity> Activity.startActivity(bundle: Bundle? = null)
 }
 
 inline fun <reified T : Activity> Activity.startActivityWithFinish(bundle: Bundle? = null) {
-    this.startActivity<T>(bundle)
+    startActivity<T>(bundle)
+    finish()
 }
 
 fun Activity.bindColor(@ColorRes res: Int): Lazy<Int> = lazy {
