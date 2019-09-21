@@ -24,6 +24,7 @@ import arisumin.com.arisumin.view.stamp.NewStampAcitivity
 import arisumin.com.arisumin.view.base.BaseActivity
 import arisumin.com.arisumin.view.base.BaseDialogFragment
 import arisumin.com.arisumin.view.map.MapActivity
+import arisumin.com.arisumin.view.start.ArisuInfoActivity
 import java.lang.IllegalStateException
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -63,7 +64,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.statusBarColor = statusBarColor
@@ -74,9 +74,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         binding.drinkBtn.setOnClickListener { drinkDialog.show(supportFragmentManager, null) }
         binding.arisuWaterSpotBtn.setOnClickListener { startActivity<MapActivity>() }
         binding.arisuStampBtn.setOnClickListener { startActivity<NewStampAcitivity>() }
-        binding.arisuInfoBtn.setOnClickListener {
-
-        }
+        binding.arisuInfoBtn.setOnClickListener { startActivity<ArisuInfoActivity>() }
         drinkDialog.drinkCallback = onDrinkCallback()
     }
 

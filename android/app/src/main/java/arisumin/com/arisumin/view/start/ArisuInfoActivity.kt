@@ -1,5 +1,6 @@
 package arisumin.com.arisumin.view.start
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
@@ -11,10 +12,14 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
 import arisumin.com.arisumin.R
+import arisumin.com.arisumin.bindColor
 import arisumin.com.arisumin.databinding.ActivityArisuInfoBinding
 import arisumin.com.arisumin.databinding.FragmentArisuInfoPagerItemBinding
+import arisumin.com.arisumin.datasource.PREF_NAME
+import arisumin.com.arisumin.datasource.PreferenceModel
 import arisumin.com.arisumin.startActivityWithFinish
 import arisumin.com.arisumin.view.base.BaseActivity
+import arisumin.com.arisumin.view.main.MainActivity
 import arisumin.com.arisumin.view.myinfo.MyInfoActivity
 
 data class ArisuInfoData(
@@ -35,10 +40,12 @@ class ArisuInfoActivity : BaseActivity<ActivityArisuInfoBinding>() {
                 ArisuInfoData(text2, R.drawable.arisu_explain_02),
                 ArisuInfoData(text3, R.drawable.arisu_explain_03))
     }
+    private val pref by lazy { ArisuInfoPref(this) }
+    private val statusBarColor by bindColor(R.color.colorWhite)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        window.statusBarColor = statusBarColor
         binding.viewPagerArisuInfo.apply{
             adapter = ArisuInfoPagerAdapter(pageResource,
                     supportFragmentManager)
@@ -55,7 +62,7 @@ class ArisuInfoActivity : BaseActivity<ActivityArisuInfoBinding>() {
 
                         //button update
                         binding.startButtonArisuInfo.apply {
-                            if(adapter!!.count-1 == currentItem)
+                            if(adapter!!.count-1 == currentItem && !pref.isSetting)
                                 visibility = View.VISIBLE
                         }
                     }
@@ -110,4 +117,8 @@ class ArisuInfoPagerList : Fragment() {
         binding.imageViewArisuInfoPagerItem.setImageResource(arguments?.get("param2") as Int)
         return binding.root
     }
+}
+
+class ArisuInfoPref(context: Context) : PreferenceModel(context, PREF_NAME) {
+    val isSetting by booleanPreference("isSetting")
 }

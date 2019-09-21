@@ -17,9 +17,7 @@
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="@string/naver_map_client" />
 
-        <activity android:name=".view.SplashActivity" />
-
-        <activity android:name=".view.start.ArisuInfoActivity">
+        <activity android:name=".view.SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -27,6 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".view.start.ArisuInfoActivity" />
 
         <activity android:name=".view.myinfo.MyInfoActivity" />
 
