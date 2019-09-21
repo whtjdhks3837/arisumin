@@ -38,6 +38,7 @@
           
         </activity>
 
+        <service android:name=".service.TimerService" />
     </application>
 
 </manifest>

@@ -1,9 +1,13 @@
 package arisumin.com.arisumin.view.main
 
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +19,7 @@ import arisumin.com.arisumin.datasource.PREF_NAME
 import arisumin.com.arisumin.datasource.PreferenceModel
 import arisumin.com.arisumin.htmlText
 import arisumin.com.arisumin.log
+import arisumin.com.arisumin.service.TimerService
 import arisumin.com.arisumin.startActivity
 import arisumin.com.arisumin.view.base.BaseActivity
 import arisumin.com.arisumin.view.base.BaseDialogFragment
@@ -32,36 +37,82 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val cupLotties =
             listOf("cup1.json", "cup2.json", "cup3.json", "cup4.json", "cup5.json")
 
+    private var timerService: TimerService? = null
+    private val onDayChangeCallback = {
+        pref.intake = 0f
+        runOnUiThread {
+            updateCupLottie()
+            initInfo()
+        }
+        Unit
+    }
+
+    private val serviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(componentName: ComponentName?, service: IBinder?) {
+            service?.let {
+                val binder = it as TimerService.Binder
+                timerService = binder.service
+                timerService?.addCallback(onDayChangeCallback)
+                timerService?.timerStart()
+            }
+        }
+
+        override fun onServiceDisconnected(componentName: ComponentName?) {
+            timerService?.removeCallback(onDayChangeCallback)
+            timerService = null
+        }
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.statusBarColor = statusBarColor
         oneDrinkAmount = String.format("%.1f", pref.onceDrinkAmount).toFloat()
         initInfo()
-        onDrinkClick()
-        onWaterSpotClick()
-        onStampClick()
-        onInfoClick()
         updateCupLottie()
+
+        binding.drinkBtn.setOnClickListener { drinkDialog.show(supportFragmentManager, null) }
+        binding.arisuWaterSpotBtn.setOnClickListener { startActivity<MapActivity>() }
+        binding.arisuStampBtn.setOnClickListener {
+
+        }
+        binding.arisuInfoBtn.setOnClickListener {
+
+        }
         drinkDialog.drinkCallback = onDrinkCallback()
     }
 
+    override fun onStart() {
+        super.onStart()
+        val intent = Intent(this, TimerService::class.java)
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unbindService(serviceConnection)
+    }
+
     private fun updateCupLottie() {
-        if (pref.intake <= 0.0f) {
-            return
-        }
-        if (pref.oneDayRecommend <= pref.intake) {
-            log("${pref.oneDayRecommend} ${pref.intake}")
-            binding.waterLottie.apply {
-                setAnimation(cupLotties.last())
-                playAnimation()
+        when {
+            pref.intake <= 0.0f -> {
+                binding.waterLottie.setImageResource(R.drawable.main_water_cup)
+                return
             }
-            return
-        }
-        val section = (pref.oneDayRecommend / cupLotties.size).toFloat()
-        val level = getLevel(section)
-        binding.waterLottie.apply {
-            setAnimation(cupLotties[level])
-            playAnimation()
+            pref.oneDayRecommend <= pref.intake -> {
+                binding.waterLottie.apply {
+                    setAnimation(cupLotties.last())
+                    playAnimation()
+                }
+            }
+            else -> {
+                val section = (pref.oneDayRecommend / cupLotties.size).toFloat()
+                val level = getLevel(section)
+                binding.waterLottie.apply {
+                    setAnimation(cupLotties[level])
+                    playAnimation()
+                }
+            }
         }
     }
 
@@ -84,22 +135,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 htmlText(R.string.figure_recommend, String.format("%.1f", pref.oneDayRecommend))
         binding.figureGoal.text = htmlText(R.string.figure_goal, pref.goal)
         binding.figureStamp.text = htmlText(R.string.figure_stamp, pref.stamp)
-    }
-
-    private fun onDrinkClick() = binding.drinkBtn.setOnClickListener {
-        drinkDialog.show(supportFragmentManager, null)
-    }
-
-    private fun onWaterSpotClick() = binding.arisuWaterSpotBtn.setOnClickListener {
-        startActivity<MapActivity>()
-    }
-
-    private fun onStampClick() = binding.arisuStampBtn.setOnClickListener {
-
-    }
-
-    private fun onInfoClick() = binding.arisuInfoBtn.setOnClickListener {
-
     }
 
     private fun onDrinkCallback(): () -> Unit = {
