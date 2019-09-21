@@ -24,11 +24,7 @@ class Indicator @JvmOverloads constructor(
     var paddingSize : Int = 12 * context.resources.displayMetrics.density.toInt() //dp
 
     fun attachDot(index:Int) {
-        lateinit var dot:Dot
-        if(index == 0)
-            dot = Dot(context,true)
-        else
-            dot = Dot(context)
+        var dot = Dot(context, index==0)
 
         dot.apply {
             this.layoutParams = LayoutParams(dotSize, dotSize).apply {

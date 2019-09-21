@@ -20,7 +20,7 @@ import arisumin.com.arisumin.datasource.PreferenceModel
 import arisumin.com.arisumin.htmlText
 import arisumin.com.arisumin.service.TimerService
 import arisumin.com.arisumin.startActivity
-import arisumin.com.arisumin.view.stamp.NewStampAcitivity
+import arisumin.com.arisumin.view.stamp.StampAcitivity
 import arisumin.com.arisumin.view.base.BaseActivity
 import arisumin.com.arisumin.view.base.BaseDialogFragment
 import arisumin.com.arisumin.view.map.MapActivity
@@ -73,7 +73,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         binding.drinkBtn.setOnClickListener { drinkDialog.show(supportFragmentManager, null) }
         binding.arisuWaterSpotBtn.setOnClickListener { startActivity<MapActivity>() }
-        binding.arisuStampBtn.setOnClickListener { startActivity<NewStampAcitivity>() }
+        binding.arisuStampBtn.setOnClickListener { startActivity<StampAcitivity>() }
         binding.arisuInfoBtn.setOnClickListener {
 
         }

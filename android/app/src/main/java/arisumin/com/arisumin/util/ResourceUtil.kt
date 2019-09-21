@@ -5,27 +5,23 @@ import android.content.Context
 import android.text.Html
 import android.text.Spanned
 
-class ResourceUtil(private val context:Context) {
+class ResourceUtil(private val context: Context) {
 
-    private val resources : Resources by lazy{
+    private val resources: Resources by lazy {
         context.resources
     }
 
-    fun StringToResourceId(text: String, context: Context): Int {
+    fun stringToResourceId(text: String, context: Context): Int {
         var id = resources.getIdentifier(text, "drawable", context.packageName)
         return id
     }
 
-    fun ConvertHtml(id: Int, format: String? = null): Spanned {
-        var text: String = ""
-
-        if (format == null) {
-            text = resources.getString(id)
-        } else if (format != null) {
-            text = resources.getString(id).replace("{}", format)
-
+    fun convertHtml(id: Int, format: String? = null): Spanned {
+        val text = format?.let {
+            resources.getString(id).replace("{}", format)
+        } ?: let {
+            resources.getString(id)
         }
-
         return Html.fromHtml(text)
     }
 }

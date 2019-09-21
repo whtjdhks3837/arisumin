@@ -78,7 +78,7 @@ class ArisuInfoActivity : BaseActivity<ActivityArisuInfoBinding>() {
 
 class ArisuInfoPagerAdapter(private val infoList : List<ArisuInfoData>, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
-        return ArisuInfoPagerList.newInstance(
+        return ArisuInfoPagerFragment.newInstance(
                 infoList[position])
     }
 
@@ -87,16 +87,19 @@ class ArisuInfoPagerAdapter(private val infoList : List<ArisuInfoData>, fm: Frag
     }
 }
 
-class ArisuInfoPagerList : Fragment() {
+class ArisuInfoPagerFragment : Fragment() {
     private lateinit var binding: FragmentArisuInfoPagerItemBinding
 
     companion object{
-        fun newInstance(info : ArisuInfoData): ArisuInfoPagerList {
-            val args: Bundle = Bundle()
-            args.putString("param1", info.text) //Text
-            args.putInt("param2", info.imageResourceId) //ResourceID
+        private val BUNDLE_INFO_TEXT = "info_text"
+        private val BUNDLE_IMAGE_RESOURCE = "image_resource"
 
-            val InfoPagerList = ArisuInfoPagerList()
+        fun newInstance(info : ArisuInfoData): ArisuInfoPagerFragment {
+            val args: Bundle = Bundle()
+            args.putString(BUNDLE_INFO_TEXT, info.text) //Text
+            args.putInt(BUNDLE_IMAGE_RESOURCE, info.imageResourceId) //ResourceID
+
+            val InfoPagerList = ArisuInfoPagerFragment()
             InfoPagerList.arguments = args
 
             return InfoPagerList
@@ -105,9 +108,8 @@ class ArisuInfoPagerList : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_arisu_info_pager_item, container, false)
-        binding.textViewArisuInfoPagerItem.text = Html.fromHtml(arguments?.get("param1") as String)
-        binding.textViewArisuInfoPagerItem.text = arguments?.get("param1") as String
-        binding.imageViewArisuInfoPagerItem.setImageResource(arguments?.get("param2") as Int)
+        binding.textViewArisuInfoPagerItem.text = Html.fromHtml(arguments?.get(BUNDLE_INFO_TEXT) as String)
+        binding.imageViewArisuInfoPagerItem.setImageResource(arguments?.get(BUNDLE_IMAGE_RESOURCE) as Int)
         return binding.root
     }
 }

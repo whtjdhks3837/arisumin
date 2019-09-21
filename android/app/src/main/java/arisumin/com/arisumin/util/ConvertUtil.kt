@@ -3,7 +3,7 @@ package arisumin.com.arisumin.util
 import android.content.res.Resources
 import android.util.DisplayMetrics
 
-class ConvertUtil() {
+object ConvertUtil{
     private var displayMetrics: DisplayMetrics = Resources.getSystem().displayMetrics
 
     fun dpToPx(dp: Int): Float {

@@ -16,7 +16,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import arisumin.com.arisumin.R
-import arisumin.com.arisumin.databinding.ActivityNewStampBinding
+import arisumin.com.arisumin.databinding.ActivityStampBinding
 import arisumin.com.arisumin.databinding.ViewCouponBinding
 import arisumin.com.arisumin.databinding.ViewStampBinding
 import arisumin.com.arisumin.datasource.PreferenceModel
@@ -27,9 +27,9 @@ import arisumin.com.arisumin.util.ConvertUtil
 import arisumin.com.arisumin.util.ResourceUtil
 import arisumin.com.arisumin.view.base.BaseActivity
 
-class NewStampAcitivity : BaseActivity<ActivityNewStampBinding>() {
+class StampAcitivity : BaseActivity<ActivityStampBinding>() {
 
-    override val resourceId: Int = R.layout.activity_new_stamp
+    override val resourceId: Int = R.layout.activity_stamp
 
     private val couponPref by lazy {
         CouponPref(this, "coupon_info")
@@ -41,7 +41,7 @@ class NewStampAcitivity : BaseActivity<ActivityNewStampBinding>() {
         "0/img_2_pro/barcode/2% 아쿠아 340ml/2019.09.18./CU"
     }
 
-    private val resources: ResourceUtil by lazy{
+    private val resources: ResourceUtil by lazy {
         ResourceUtil(this)
     }
 
@@ -59,8 +59,8 @@ class NewStampAcitivity : BaseActivity<ActivityNewStampBinding>() {
 
         couponList.apply {
             add(Coupon(
-                    resources.StringToResourceId(temp[1], this@NewStampAcitivity),
-                    resources.StringToResourceId(temp[2], this@NewStampAcitivity),
+                    resources.stringToResourceId(temp[1], this@StampAcitivity),
+                    resources.stringToResourceId(temp[2], this@StampAcitivity),
                     temp[3],
                     temp[4],
                     temp[5])
@@ -68,16 +68,16 @@ class NewStampAcitivity : BaseActivity<ActivityNewStampBinding>() {
         }
 
         //Remainder & Gift Notice
-        binding.remainderNoticeText.text = resources.ConvertHtml(R.string.remainder_notice, "4")
-        binding.giftNoticeText.text = resources.ConvertHtml(R.string.gift_notice, "이온 음료")
+        binding.remainderNoticeText.text = resources.convertHtml(R.string.remainder_notice, "4")
+        binding.giftNoticeText.text = resources.convertHtml(R.string.gift_notice, "이온 음료")
 
         //Count
-        binding.stampCount.text = resources.ConvertHtml(R.string.stamp_count, "6")
-        binding.couponCount.text = resources.ConvertHtml(R.string.coupon_count, "2")
+        binding.stampCount.text = resources.convertHtml(R.string.stamp_count, "6")
+        binding.couponCount.text = resources.convertHtml(R.string.coupon_count, "2")
 
         //Recycler
         binding.stampCouponRecyclerView.apply {
-            layoutManager = LinearLayoutManager(this@NewStampAcitivity, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = LinearLayoutManager(this@StampAcitivity, LinearLayoutManager.HORIZONTAL, false)
 
             adapter = StampCouponRecyclerAdapter().apply {
 
@@ -85,23 +85,22 @@ class NewStampAcitivity : BaseActivity<ActivityNewStampBinding>() {
                 couponList.forEach {
                     addItem(it)
                 }
-                this@apply.notifyDataSetChanged()
+                notifyDataSetChanged()
             }
 
             addItemDecoration(StampCouponRecyclerDecoration(0))
         }
 
         //CouponNotice
-        binding.couponNoticeText1.text = resources.ConvertHtml(R.string.coupon_notice_1)
-        binding.couponNoticeText2.text = resources.ConvertHtml(R.string.coupon_notice_2)
-        binding.couponNoticeText3.text = resources.ConvertHtml(R.string.coupon_notice_3)
+        binding.couponNoticeText1.text = resources.convertHtml(R.string.coupon_notice_1)
+        binding.couponNoticeText2.text = resources.convertHtml(R.string.coupon_notice_2)
+        binding.couponNoticeText3.text = resources.convertHtml(R.string.coupon_notice_3)
     }
 }
 
 class StampCouponRecyclerDecoration(private var dp: Int) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-        outRect.right = ConvertUtil().dpToPx(dp).toInt();
-
+        outRect.right = ConvertUtil.dpToPx(dp).toInt();
     }
 }
 
@@ -112,6 +111,10 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
     private lateinit var viewBinding: ViewDataBinding
     private lateinit var viewHolder: ItemViewHolder
 
+    private val VIEW_TYPE_STAMP = 0
+    private val VIEW_TYPE_COUPON = 1
+    private val VIEW_TYPE_LAST = 2
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         context = parent.context
 
@@ -119,45 +122,50 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
 
         //카드뷰 동적 margin 및 width
         var stampParams = LinearLayoutCompat.LayoutParams(
-                ConvertUtil().percentToPxWidth(0.86F).toInt(),
+                ConvertUtil.percentToPxWidth(0.86F).toInt(),
                 LinearLayout.LayoutParams.MATCH_PARENT).apply {
-            leftMargin = ConvertUtil().percentToPxWidth(0.07F).toInt()
+            leftMargin = ConvertUtil.percentToPxWidth(0.07F).toInt()
         }
 
         var couponParams = LinearLayoutCompat.LayoutParams(
-                ConvertUtil().percentToPxWidth(0.86F).toInt(),
+                ConvertUtil.percentToPxWidth(0.86F).toInt(),
                 LinearLayout.LayoutParams.MATCH_PARENT).apply {
-            leftMargin = ConvertUtil().percentToPxWidth(0.03F).toInt()
+            leftMargin = ConvertUtil.percentToPxWidth(0.03F).toInt()
         }
 
-        if (viewType == 0) {
-            //Stamp
-            var binding = DataBindingUtil.inflate<ViewStampBinding>(inflater, R.layout.view_stamp, parent, false)
-            binding.stampWrapper.apply {
-                layoutParams = stampParams
-            }
-            viewHolder = StampViewHolder(
-                    binding as ViewStampBinding, context)
-        } else if (viewType == 1) {
-            //Coupon
-
-            var binding = DataBindingUtil.inflate<ViewCouponBinding>(inflater, R.layout.view_coupon, parent, false)
-            binding.couponWrapper.apply {
-                layoutParams = couponParams
-            }
-            viewHolder = CouponViewHolder(
-                    binding as ViewCouponBinding, context)
+        var couponLastParams = LinearLayoutCompat.LayoutParams(
+                ConvertUtil.percentToPxWidth(0.86F).toInt(),
+                LinearLayout.LayoutParams.MATCH_PARENT).apply {
+            leftMargin = ConvertUtil.percentToPxWidth(0.03F).toInt()
+            rightMargin = ConvertUtil.percentToPxWidth(0.07F).toInt()
         }
+
+        when (viewType) {
+            VIEW_TYPE_STAMP -> {
+                var binding = DataBindingUtil.inflate<ViewStampBinding>(inflater, R.layout.view_stamp, parent, false)
+                binding.stampWrapper.apply {
+                    layoutParams = stampParams
+                }
+                viewHolder = StampViewHolder(binding as ViewStampBinding, context)
+            }
+            else -> {
+                var binding = DataBindingUtil.inflate<ViewCouponBinding>(inflater, R.layout.view_coupon, parent, false)
+                binding.couponWrapper.apply {
+                    layoutParams =  if (viewType==VIEW_TYPE_COUPON) couponParams else couponLastParams
+                }
+                viewHolder = CouponViewHolder(binding as ViewCouponBinding, context)
+            }
+        }
+
         return viewHolder
     }
 
     override fun getItemViewType(position: Int): Int {
-        var type: Int = position
-
-        if (type != 0)
-            type /= type
-
-        return type
+        return when (position) {
+            0 -> VIEW_TYPE_STAMP
+            itemList.size - 1 -> VIEW_TYPE_LAST
+            else -> VIEW_TYPE_COUPON
+        }
     }
 
     override fun getItemCount(): Int {
@@ -165,15 +173,7 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        var viewType = getItemViewType(position)
-
-        if (viewType == 0) {
-            holder.bindData(itemList[position])
-
-        } else if (viewType == 1) {
-            holder.bindData(itemList[position])
-
-        }
+        holder.bindData(itemList[position])
     }
 
     fun addItem(item: StampCoupon) {
@@ -195,9 +195,9 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
             var endCount: Int = 9
             for (x in 0..endCount) {
                 binding.couponGrid.apply {
-                    var resource: gridResource = stampResource(false)
-                    if (x < tempCount) resource = stampResource(true)
-                    else if (x == endCount) resource = gitfResource(false)
+                    var resource: GridResource = StampResource(false)
+                    if (x < tempCount) resource = StampResource(true)
+                    else if (x == endCount) resource = GitfResource(false)
 
                     var tempImageView = ImageView(context)
                     val params = GridLayout.LayoutParams(
@@ -205,7 +205,7 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
                             GridLayout.spec(GridLayout.UNDEFINED, GridLayout.CENTER, 1f))
 
                     tempImageView.layoutParams = params.apply {
-                        if (x < 5) bottomMargin = ConvertUtil().dpToPx(30).toInt()
+                        if (x < 5) bottomMargin = ConvertUtil.dpToPx(30).toInt()
                     }
                     tempImageView.background = ContextCompat.getDrawable(context, resource.currentResourceId)
 
@@ -221,9 +221,9 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
 
             if (data is Coupon) {
                 binding.couponImage.background = ContextCompat.getDrawable(context, data.couponResourceId)
-                binding.couponName.text = resources.ConvertHtml(R.string.coupon_name, data.couponName)
-                binding.couponValidateDate.text = resources.ConvertHtml(R.string.coupon_validate_date, data.availableDate)
-                binding.couponUsingPlace.text = resources.ConvertHtml(R.string.coupon_using_place, data.usingPlace)
+                binding.couponName.text = resources.convertHtml(R.string.coupon_name, data.couponName)
+                binding.couponValidateDate.text = resources.convertHtml(R.string.coupon_validate_date, data.availableDate)
+                binding.couponUsingPlace.text = resources.convertHtml(R.string.coupon_using_place, data.usingPlace)
             }
         }
     }
