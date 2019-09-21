@@ -42,6 +42,11 @@ class TimerService : Service() {
 
     override fun onBind(p0: Intent?) = binder
 
+    override fun onCreate() {
+        super.onCreate()
+        lastDate
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         isStop = true
