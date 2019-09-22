@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.widget.ImageView
 import arisumin.com.arisumin.R
+import arisumin.com.arisumin.bindColor
 import arisumin.com.arisumin.databinding.ActivitySplashBinding
 import arisumin.com.arisumin.datasource.PREF_NAME
 import arisumin.com.arisumin.datasource.PreferenceModel
@@ -22,12 +23,14 @@ import com.bumptech.glide.request.target.Target
 class SplashActivity : BaseActivity<ActivitySplashBinding>() {
 
     override val resourceId: Int = R.layout.activity_splash
+    private val statusBarColor by bindColor(R.color.colorWhite)
 
     private val pref by lazy { SplashPref(this) }
     private val handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window?.statusBarColor = statusBarColor
         Glide.with(this)
                 .asGif()
                 .load(R.raw.splash)
@@ -48,7 +51,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
                         return false
                     }
                 })
-                .into(binding.root as ImageView)
+                .into(binding.gif)
     }
 
     private fun nextActivity(isSetting: Boolean) =

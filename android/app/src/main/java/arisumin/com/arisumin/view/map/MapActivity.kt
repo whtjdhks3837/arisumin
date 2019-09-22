@@ -1,5 +1,6 @@
 package arisumin.com.arisumin.view.map
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.View
@@ -15,6 +16,8 @@ import arisumin.com.arisumin.readJsonFromAsset
 import arisumin.com.arisumin.toDp
 import arisumin.com.arisumin.view.base.BaseActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.gson.Gson
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
@@ -29,6 +32,8 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
     companion object {
         const val REQ_LOCATION = 0x01
         const val DEFAULT_BOTTOM_SHEET_HEIGHT = 164f
+        const val METER_PER_MIN = 70
+        const val MIN_PER_KCAL = 3
     }
 
     override val resourceId: Int = R.layout.activity_map
@@ -41,7 +46,7 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
                 }
     }
 
-    private lateinit var fusedLocationSource: FusedLocationSource
+    private val fusedLocationSource by lazy { FusedLocationSource(this, REQ_LOCATION) }
     private var naverMap: NaverMap? = null
     private var selectedMarker: Marker? = null
 
@@ -71,9 +76,7 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
         measureDetail.graphArea.post { graphAreaWidth = measureDetail.graphArea.width }
 
         initMap()
-        fusedLocationSource = FusedLocationSource(this, REQ_LOCATION)
-        BottomSheetBehavior.from(bottomSheet.root).peekHeight =
-                toDp(this, DEFAULT_BOTTOM_SHEET_HEIGHT)
+        initBottomSheet()
 
         binding.back.setOnClickListener { finish() }
     }
@@ -95,6 +98,25 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
         MarkerManager.createMarkers(waterSpots.list) { markers ->
             drawMarkers(naverMap, markers)
         }
+    }
+
+    private fun initBottomSheet() = with(BottomSheetBehavior.from(bottomSheet.root)) {
+        peekHeight = toDp(this@MapActivity, DEFAULT_BOTTOM_SHEET_HEIGHT)
+        setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            @SuppressLint("SwitchIntDef")
+            override fun onStateChanged(bs: View, newState: Int) {
+                when (newState) {
+                    STATE_EXPANDED -> {
+                        bottomSheet.btnOpenClose.setImageResource(R.drawable.bt_map_up)
+                    }
+                    STATE_COLLAPSED -> {
+                        bottomSheet.btnOpenClose.setImageResource(R.drawable.bt_map_down)
+                    }
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+        })
     }
 
     private fun drawMarkers(naverMap: NaverMap, markers: List<Marker>) = runOnUiThread {
@@ -136,14 +158,14 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
 
     private fun bindMapInfo(waterSpot: WaterSpot, distance: Int) {
         pref.index = waterSpot.index
-        bottomSheet.addressSimple.text =
-                getString(R.string.map_info_address_simple, waterSpot.name)
-        bottomSheet.address.text =
-                getString(R.string.map_info_address_simple, waterSpot.address)
-        bottomSheet.distance.text =
-                getString(R.string.map_info_distance, distance)
-        bottomSheet.visitCount.text =
-                getString(R.string.map_bottom_sheet_visit, pref.visitCount)
+        val workingTime = distance / METER_PER_MIN
+        val kcal = workingTime * MIN_PER_KCAL
+        bottomSheet.workingTime.text = getString(R.string.map_info_working_min, workingTime)
+        bottomSheet.kcal.text = getString(R.string.map_info_kcal, kcal)
+        bottomSheet.addressSimple.text = getString(R.string.map_info_address_simple, waterSpot.name)
+        bottomSheet.address.text = getString(R.string.map_info_address_simple, waterSpot.address)
+        bottomSheet.distance.text = getString(R.string.map_info_distance, distance)
+        bottomSheet.visitCount.text = getString(R.string.map_bottom_sheet_visit, pref.visitCount)
     }
 
     private fun bindGraph(waterSpot: WaterSpot, index: Int) {
