@@ -73,7 +73,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         binding.drinkBtn.setOnClickListener { drinkDialog.show(supportFragmentManager, null) }
         binding.arisuWaterSpotBtn.setOnClickListener { startActivity<MapActivity>() }
-        binding.arisuStampBtn.setOnClickListener { startActivity<NewStampAcitivity>() }
+        binding.arisuStampBtn.setOnClickListener { startActivity<StampAcitivity>() }
         binding.arisuInfoBtn.setOnClickListener { startActivity<ArisuInfoActivity>() }
         drinkDialog.drinkCallback = onDrinkCallback()
     }
