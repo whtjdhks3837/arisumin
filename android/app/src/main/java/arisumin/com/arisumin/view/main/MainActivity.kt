@@ -150,6 +150,12 @@ class DrinkDialog : BaseDialogFragment<DialogDrinkBinding>() {
     override val resourceId = R.layout.dialog_drink
     var drinkCallback: (() -> Unit)? = null
 
+    private val qrAcitivity by lazy {
+        ArisuQR(this).apply {
+            customize()
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -160,10 +166,7 @@ class DrinkDialog : BaseDialogFragment<DialogDrinkBinding>() {
         super.onViewCreated(view, savedInstanceState)
         binding.close.setOnClickListener { dismiss() }
         binding.qrBtn.setOnClickListener {
-            ArisuQR(this).apply {
-                customize()
-                start()
-            }
+            qrAcitivity.start()
         }
         binding.drinkBtn.setOnClickListener {
             drinkCallback?.invoke()
@@ -187,7 +190,6 @@ class DrinkDialog : BaseDialogFragment<DialogDrinkBinding>() {
 }
 
 class MainPref(context: Context, name: String) : PreferenceModel(context, name) {
-
     companion object {
         const val DRINK_PERIOD = 7
     }
