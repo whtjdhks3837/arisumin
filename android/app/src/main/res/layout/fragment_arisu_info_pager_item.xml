@@ -1,28 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_horizontal_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="@fraction/arisuInfoViewPagerHorizontalGuide1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_vertical_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.061"/>
 
         <TextView
-            android:fontFamily="@font/notosans_light"
             android:id="@+id/textView_arisu_info_pager_item"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="22dp"
-            android:layout_marginTop="55dp"
             android:layout_width="wrap_content"
-            android:textSize="19sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosans_light"
+            android:textSize="@dimen/arisuInfoTextSize"
+            app:layout_constraintStart_toEndOf="@id/guideline_vertical_1"
+            app:layout_constraintTop_toBottomOf="@id/guideline_horizontal_1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_horizontal_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="@fraction/arisuInfoViewPagerHorizontalGuide2" />
 
         <ImageView
             android:id="@+id/imageView_arisu_info_pager_item"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView_arisu_info_pager_item" />
+            app:layout_constraintTop_toBottomOf="@id/guideline_horizontal_2"
+            app:layout_constraintHeight_percent="0.47"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
