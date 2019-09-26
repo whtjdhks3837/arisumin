@@ -4,6 +4,8 @@
     <string name="map_info_address_simple">%1$s 음수대</string>
     <string name="map_info_address">%1$s</string>
     <string name="map_info_distance">%1$dm 떨어진 곳에 아리수 음수대가 있어요!</string>
+    <string name="map_info_working_min">걸음 %1$d분</string>
+    <string name="map_info_kcal">약 %1$dkcal 소모</string>
     <string name="arisu_info_page_1_description">
         <![CDATA[아리수는 고구려 때 한강을 부르던 말로<br>
          평생을 마셔도 좋은<br>

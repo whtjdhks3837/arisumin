@@ -11,7 +11,6 @@ import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import arisumin.com.arisumin.R
 import arisumin.com.arisumin.bindColor
 import arisumin.com.arisumin.databinding.ActivityMainBinding
 import arisumin.com.arisumin.databinding.DialogDrinkBinding
@@ -23,9 +22,14 @@ import arisumin.com.arisumin.startActivity
 import arisumin.com.arisumin.view.stamp.StampAcitivity
 import arisumin.com.arisumin.view.base.BaseActivity
 import arisumin.com.arisumin.view.base.BaseDialogFragment
+import arisumin.com.arisumin.view.base.BaseQR
 import arisumin.com.arisumin.view.map.MapActivity
 import arisumin.com.arisumin.view.start.ArisuInfoActivity
 import java.lang.IllegalStateException
+import android.widget.Toast
+import arisumin.com.arisumin.R
+import com.google.zxing.integration.android.IntentIntegrator
+
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     override val resourceId = R.layout.activity_main
@@ -138,6 +142,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         initInfo()
         updateCupLottie()
     }
+
 }
 
 class DrinkDialog : BaseDialogFragment<DialogDrinkBinding>() {
@@ -145,8 +150,14 @@ class DrinkDialog : BaseDialogFragment<DialogDrinkBinding>() {
     override val resourceId = R.layout.dialog_drink
     var drinkCallback: (() -> Unit)? = null
 
+    private val qrAcitivity by lazy {
+        ArisuQR(this).apply {
+            customize()
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?): View {
+                              savedInstanceState: Bundle?): View {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -154,16 +165,31 @@ class DrinkDialog : BaseDialogFragment<DialogDrinkBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.close.setOnClickListener { dismiss() }
-        binding.qrBtn.setOnClickListener { }
+        binding.qrBtn.setOnClickListener {
+            qrAcitivity.start()
+        }
         binding.drinkBtn.setOnClickListener {
             drinkCallback?.invoke()
             dismiss()
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+
+        if (result != null) {
+            if (result.contents == null) {
+                Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(context, "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
 }
 
 class MainPref(context: Context, name: String) : PreferenceModel(context, name) {
-
     companion object {
         const val DRINK_PERIOD = 7
     }
@@ -183,3 +209,10 @@ class MainPref(context: Context, name: String) : PreferenceModel(context, name) 
             return ((intake / oneDayRecommend) * 100).toInt()
         }
 }
+
+class ArisuQR(override val parent: Any) : BaseQR() {
+    override fun customize() {
+        qr.setOrientationLocked(false)
+    }
+}
+

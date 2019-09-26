@@ -12,12 +12,23 @@
             android:layout_width="17dp"
             android:layout_height="6dp"
             android:layout_marginTop="11dp"
-            android:src="@drawable/bt_map_up"
+            android:src="@drawable/bt_map_down"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/qr_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="21dp"
+            android:src="@drawable/bt_map_qrcode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/scroll"/>
+
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="9dp"
@@ -38,16 +49,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/qr_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="21dp"
-                    android:src="@drawable/bt_map_qrcode"
-                    app:layout_constraintBottom_toBottomOf="@id/address_simple"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/address_simple" />
 
                 <TextView
                     android:id="@+id/address"
@@ -78,7 +79,7 @@
                     android:layout_marginTop="6dp"
                     android:background="@color/colorSoftBlue"
                     android:gravity="center"
-                    android:text="약 8kcal 소모"
+                    android:text="@string/map_info_kcal"
                     android:textSize="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +92,7 @@
                     android:layout_height="27dp"
                     android:background="@drawable/map_info_working_time_bg"
                     android:gravity="center"
-                    android:text="걸음 8분"
+                    android:text="@string/map_info_working_min"
                     android:textSize="16dp"
                     app:layout_constraintBottom_toBottomOf="@id/kcal"
                     app:layout_constraintEnd_toStartOf="@id/kcal"
