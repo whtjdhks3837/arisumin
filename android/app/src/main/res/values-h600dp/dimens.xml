@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--ArisuInfo-->
+    <dimen name="arisuInfoTextSize">19sp</dimen>
+    <!--Stamp-->
+    <dimen name="stampRemainderNoticeTopMargin">16dp</dimen>
+    <dimen name="stampNoticeText">19sp</dimen>
+    <dimen name="stampNoticeViewText">15sp</dimen>
+
+    <dimen name="stampStampWidth">56dp</dimen>
+    <dimen name="stampStampHeight">48dp</dimen>
+    <dimen name="stampStampLeftMargin">11dp</dimen>
+    <dimen name="stampStampBottomMargin">30dp</dimen>
+
+    <dimen name="stampCouponNoticeViewMainText">14sp</dimen>
+    <dimen name="stampCouponNoticeViewSubText">11sp</dimen>
+    <dimen name="stampCouponNoticeViewMargin">24dp</dimen>
+    <dimen name="stampCouponNoticeViewTextBottomMargin">8dp</dimen>
+
+    <dimen name="stampCouponMainText">16sp</dimen>
+    <dimen name="stampCouponSubText">14sp</dimen>
+    <dimen name="stampCouponMainTextTopMargin">49dp</dimen>
+    <dimen name="stampCouponMainTextBottomMargin">24dp</dimen>
+    <dimen name="stampCouponSubTextBottomMargin">9dp</dimen>
+    <dimen name="stampCouponNextButtonBottomMargin">25dp</dimen>
+
+</resources>
