@@ -16,7 +16,7 @@
     </string>
     <string name="arisu_info_page_3_description">
         <![CDATA[무거운 물병을 들고 다니지 않아도<br>
-        <b><font color=#5a86e0>시원한 물을 마실 수 있어요.</font></b>]]>
+        <b><font color=#5a86e0>시원한 물</font></b>을 마실 수 있어요.]]>
     </string>
     <string name="remainder_notice">
         <![CDATA[<b><font color=#313131>{}</font></b>번 더 마시면]]>
@@ -25,22 +25,22 @@
         <![CDATA[<big><big><b><font color=#4d8dd8>{}</font></b></big></big> 가 무료!!]]>
     </string>
     <string name="stamp_count">
-        <![CDATA[<big><big><big><font color=#4d8dd8>{}</big></big></big></font> 개]]>
+        <![CDATA[<big><big><b><font color=#4d8dd8>{}</b></big></big></font> 개]]>
     </string>
     <string name="coupon_count">
-        <![CDATA[<big><big><big><font color=#4d8dd8>{}</big></big></big></font> 개]]>
+        <![CDATA[<big><big><b><font color=#4d8dd8>{}</b></big></big></font> 개]]>
     </string>
     <string name="coupon_notice_1">
         <![CDATA[- 한 음수대에서 <b>1일 1회</b> 적립 가능합니다.]]>
     </string>
     <string name="coupon_notice_2">
-        <![CDATA[- 아리수 음수대에서 물을 마시고 음수대에 붙어있는 <b>QR코드</b>를 찍으면 스탬프 1개가 적립됩니다.]]>
+        <![CDATA[- 아리수 음수대에서 물을 마시고 음수대에 붙어있는 <b>QR코드</b>를 찍으면<br> &nbsp 스탬프 1개가 적립됩니다.]]>
     </string>
     <string name="coupon_notice_3">
         <![CDATA[- 스탬프 10개를 모으면 물품을 교환할 수 있는 바코드를 제공합니다.]]>
     </string>
     <string name="coupon_name">
-        <![CDATA[<big><big><font color=#262626>{}</font></big></big>]]>
+        <![CDATA[<font color=#262626>{}</font>]]>
     </string>
     <string name="coupon_validate_date">
         <![CDATA[쿠폰 기한 | <font color=#777777>{}</font>]]>
