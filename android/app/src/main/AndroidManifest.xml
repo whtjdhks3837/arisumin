@@ -36,7 +36,8 @@
 
         <activity android:name=".view.map.MapActivity" />
 
-        <activity android:name=".view.stamp.NewStampAcitivity" />
+        <activity android:name=".view.stamp.StampAcitivity" >
+        </activity>
 
         <service android:name=".service.TimerService" />
     </application>
