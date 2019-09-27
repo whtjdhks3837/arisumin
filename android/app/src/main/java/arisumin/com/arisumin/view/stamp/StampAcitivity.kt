@@ -3,6 +3,7 @@ package arisumin.com.arisumin.view.stamp
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,7 @@ import arisumin.com.arisumin.model.StampCoupon
 import arisumin.com.arisumin.util.ConvertUtil
 import arisumin.com.arisumin.util.ResourceUtil
 import arisumin.com.arisumin.view.base.BaseActivity
+import kotlinx.android.synthetic.main.activity_map.view.*
 
 class StampAcitivity : BaseActivity<ActivityStampBinding>() {
 
@@ -125,6 +127,7 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
                 ConvertUtil.percentToPxWidth(0.86F).toInt(),
                 LinearLayout.LayoutParams.MATCH_PARENT).apply {
             leftMargin = ConvertUtil.percentToPxWidth(0.07F).toInt()
+            gravity = Gravity.CENTER
         }
 
         var couponParams = LinearLayoutCompat.LayoutParams(
@@ -151,7 +154,7 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
             else -> {
                 var binding = DataBindingUtil.inflate<ViewCouponBinding>(inflater, R.layout.view_coupon, parent, false)
                 binding.couponWrapper.apply {
-                    layoutParams =  if (viewType==VIEW_TYPE_COUPON) couponParams else couponLastParams
+                    layoutParams = if (viewType == VIEW_TYPE_COUPON) couponParams else couponLastParams
                 }
                 viewHolder = CouponViewHolder(binding as ViewCouponBinding, context)
             }
@@ -192,26 +195,9 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
             //TODO sharedPreference
             //var tempCount: Int = stampPref.count
             var tempCount: Int = 5
-            var endCount: Int = 9
-            for (x in 0..endCount) {
-                binding.couponGrid.apply {
-                    var resource: GridResource = StampResource(false)
-                    if (x < tempCount) resource = StampResource(true)
-                    else if (x == endCount) resource = GitfResource(false)
+            var childCount: Int = binding.couponGrid.childCount
 
-                    var tempImageView = ImageView(context)
-                    val params = GridLayout.LayoutParams(
-                            GridLayout.spec(GridLayout.UNDEFINED, GridLayout.CENTER, 1f),
-                            GridLayout.spec(GridLayout.UNDEFINED, GridLayout.CENTER, 1f))
-
-                    tempImageView.layoutParams = params.apply {
-                        if (x < 5) bottomMargin = ConvertUtil.dpToPx(30).toInt()
-                    }
-                    tempImageView.background = ContextCompat.getDrawable(context, resource.currentResourceId)
-
-                    binding.couponGrid.addView(tempImageView)
-                }
-            }
+            val STAMP_BLUE_RESOURCE_ID = R.drawable.img_stamp_blue
         }
     }
 

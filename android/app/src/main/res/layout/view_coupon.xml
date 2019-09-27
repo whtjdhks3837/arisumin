@@ -15,21 +15,21 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:background="@drawable/coupon_card_border"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/guideline_1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/coupon_card_border">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/coupon_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/img_2_pro"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.Guideline
@@ -43,9 +43,11 @@
             android:id="@+id/coupon_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="42dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="@dimen/stampCouponMainTextTopMargin"
+            android:fontFamily="@font/notosans_regular"
             android:textColor="@color/colorGray20"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/stampCouponMainText"
             app:layout_constraintStart_toEndOf="@id/guideline_1"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,8 +55,11 @@
             android:id="@+id/coupon_validate_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="14.5dp"
+            android:layout_marginTop="@dimen/stampCouponMainTextBottomMargin"
+            android:layout_marginBottom="@dimen/stampCouponSubTextBottomMargin"
+            android:fontFamily="@font/notosans_light"
             android:textColor="@color/colorGray20"
+            android:textSize="@dimen/stampCouponSubText"
             app:layout_constraintStart_toStartOf="@id/coupon_name"
             app:layout_constraintTop_toBottomOf="@id/coupon_name" />
 
@@ -62,9 +67,19 @@
             android:id="@+id/coupon_using_place"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="6dp"
+            android:fontFamily="@font/notosans_light"
             android:textColor="@color/colorGray20"
+            android:textSize="@dimen/stampCouponSubText"
             app:layout_constraintStart_toStartOf="@id/coupon_name"
             app:layout_constraintTop_toBottomOf="@id/coupon_validate_date" />
+
+        <ImageView
+            android:layout_width="57dp"
+            android:layout_height="9dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="@dimen/stampCouponNextButtonBottomMargin"
+            android:background="@drawable/icon_next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
