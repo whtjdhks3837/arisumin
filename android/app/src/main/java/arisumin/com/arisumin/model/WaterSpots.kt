@@ -11,6 +11,9 @@ data class WaterSpot(
         @SerializedName("index") @Expose val index: Int,
         @SerializedName("name") @Expose val name: String,
         @SerializedName("address") @Expose val address: String,
-        @SerializedName("lat") @Expose val lat: Double,
-        @SerializedName("long") @Expose val lng: Double
+        @SerializedName("lat") @Expose val lat: Double?,
+        @SerializedName("long") @Expose val lng: Double?,
+        @SerializedName("ntu") @Expose val ntu: Double?,
+        @SerializedName("chlorine") @Expose val chlorine: Double?,
+        @SerializedName("pH") @Expose val ph: Double?
 )

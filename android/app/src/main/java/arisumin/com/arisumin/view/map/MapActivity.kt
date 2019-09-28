@@ -68,8 +68,6 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
     private val measureDetail by lazy { bottomSheet.measureDetail }
     private var graphAreaWidth = 0
 
-    private val tmpValues = listOf(0.06f, 3f, 7.1f)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(FLAG_LAYOUT_NO_LIMITS, FLAG_LAYOUT_NO_LIMITS)
@@ -77,7 +75,6 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
 
         initMap()
         initBottomSheet()
-
         binding.back.setOnClickListener { finish() }
     }
 
@@ -108,6 +105,7 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
                 when (newState) {
                     STATE_EXPANDED -> {
                         bottomSheet.btnOpenClose.setImageResource(R.drawable.bt_map_up)
+                        measureDetail.bar.requestLayout()
                     }
                     STATE_COLLAPSED -> {
                         bottomSheet.btnOpenClose.setImageResource(R.drawable.bt_map_down)
@@ -142,6 +140,7 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
                     bindGraph(waterSpot, index)
                 }
                 measureBtnGroup.check(R.id.ntu_btn)
+                bindGraph(waterSpot, 0)
                 selectedMarker?.icon = iconMarkerOff
                 selectedMarker = it.apply { icon = iconMarkerOn }
             }
@@ -170,17 +169,26 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
 
     private fun bindGraph(waterSpot: WaterSpot, index: Int) {
         val safeArea = "${measureInfos[index].safeArea.first} ~ ${measureInfos[index].safeArea.second}"
+        val measure = getMeasureValue(waterSpot, index)
         measureDetail.info.text = measureInfos[index].info
         measureDetail.species.text = measureInfos[index].name
         measureDetail.safeArea.text = safeArea
-        measureDetail.measureValue.text = tmpValues[index].toString()
-        drawMeasureBar(tmpValues[index] / measureInfos[index].maxValue)
+        measureDetail.measureValue.text = measure?.toString() ?: "0"
+        measure?.let { drawMeasureBar(it / measureInfos[index].maxValue) } ?: drawMeasureBar(0.01)
     }
 
-    private fun drawMeasureBar(barWidthPer: Float) {
+    private fun drawMeasureBar(barWidthPer: Double) {
         measureDetail.bar.layoutParams.width = (graphAreaWidth * barWidthPer).toInt()
         measureDetail.bar.requestLayout()
     }
+
+    private fun getMeasureValue(waterSpot: WaterSpot, index: Int) =
+            when (index) {
+                0 -> waterSpot.ntu
+                1 -> waterSpot.chlorine
+                2 -> waterSpot.ph
+                else -> throw IllegalStateException()
+            }
 
     private fun isSelectedMarker(marker: Marker) = selectedMarker === marker
 }
