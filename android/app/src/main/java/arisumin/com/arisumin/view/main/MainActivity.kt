@@ -155,7 +155,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
             intake -= section
         }
-        throw IllegalStateException()
+        return cupLotties.lastIndex
     }
 
     private fun initInfo() {
@@ -196,7 +196,7 @@ class DrinkDialog : BaseDialogFragment<DialogDrinkBinding>() {
     var onQRStartCallback: (() -> Unit)? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+            savedInstanceState: Bundle?): View {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -233,6 +233,19 @@ class StampSuccessDialog : BaseDialogFragment<DialogStampSuccessBinding>() {
         binding.okButton.setOnClickListener { dismiss() }
         binding.startStampActivity.setOnClickListener {
             onShowStampCallback?.invoke()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (result != null) {
+            if (result.contents == null) {
+                Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(context, "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
         }
         binding.stampSuccessText.text = ResourceUtil(context!!).convertHtml(R.string.stamp_success_text)
     }
