@@ -30,6 +30,7 @@ import android.widget.Toast
 import arisumin.com.arisumin.R
 import arisumin.com.arisumin.databinding.DialogStampSuccessBinding
 import arisumin.com.arisumin.util.ResourceUtil
+import arisumin.com.arisumin.controller.AlarmController
 import com.google.zxing.integration.android.IntentIntegrator
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -81,6 +82,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.statusBarColor = statusBarColor
+        AlarmController(applicationContext).init()
         oneDrinkAmount = String.format("%.1f", pref.onceDrinkAmount).toFloat()
         initInfo()
         updateCupLottie()

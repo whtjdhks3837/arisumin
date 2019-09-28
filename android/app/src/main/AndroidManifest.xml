@@ -46,6 +46,13 @@
         <activity android:name=".view.stamp.StampAcitivity" />
 
         <service android:name=".service.TimerService" />
+
+        <receiver android:name=".receiver.AlarmReceiver">
+            <intent-filter>
+                <action android:name="AlarmService"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
