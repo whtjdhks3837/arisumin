@@ -25,7 +25,8 @@
             android:src="@drawable/bt_map_qrcode"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/scroll"/>
+            app:layout_constraintBottom_toTopOf="@id/scroll"
+            android:visibility="gone"/>
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scroll"
