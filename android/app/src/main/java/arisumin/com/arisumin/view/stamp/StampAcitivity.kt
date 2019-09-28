@@ -3,6 +3,7 @@ package arisumin.com.arisumin.view.stamp
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,9 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import arisumin.com.arisumin.R
+import arisumin.com.arisumin.bindColor
 import arisumin.com.arisumin.databinding.ActivityStampBinding
+import arisumin.com.arisumin.databinding.DialogBarcodeBinding
 import arisumin.com.arisumin.databinding.ViewCouponBinding
 import arisumin.com.arisumin.databinding.ViewStampBinding
 import arisumin.com.arisumin.datasource.PreferenceModel
@@ -26,10 +29,14 @@ import arisumin.com.arisumin.model.StampCoupon
 import arisumin.com.arisumin.util.ConvertUtil
 import arisumin.com.arisumin.util.ResourceUtil
 import arisumin.com.arisumin.view.base.BaseActivity
+import arisumin.com.arisumin.view.base.BaseDialogFragment
+import kotlinx.android.synthetic.main.activity_map.view.*
 
 class StampAcitivity : BaseActivity<ActivityStampBinding>() {
 
     override val resourceId: Int = R.layout.activity_stamp
+    private val statusBarColor by bindColor(R.color.colorSkyBlue)
+    private var barcodeDialog = BarcodeDialog()
 
     private val couponPref by lazy {
         CouponPref(this, "coupon_info")
@@ -47,7 +54,7 @@ class StampAcitivity : BaseActivity<ActivityStampBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        window.statusBarColor = statusBarColor
         //TODO sharedPreference 전처리
         //couponPref.list.forEach {
         // // index/giftResourceId/barcodeResourceId/giftName/availableDate
@@ -80,6 +87,7 @@ class StampAcitivity : BaseActivity<ActivityStampBinding>() {
             layoutManager = LinearLayoutManager(this@StampAcitivity, LinearLayoutManager.HORIZONTAL, false)
 
             adapter = StampCouponRecyclerAdapter().apply {
+                callbackPropagation = { showBarcodeDialog() }
 
                 addItem(Stamp(5))
                 couponList.forEach {
@@ -95,6 +103,14 @@ class StampAcitivity : BaseActivity<ActivityStampBinding>() {
         binding.couponNoticeText1.text = resources.convertHtml(R.string.coupon_notice_1)
         binding.couponNoticeText2.text = resources.convertHtml(R.string.coupon_notice_2)
         binding.couponNoticeText3.text = resources.convertHtml(R.string.coupon_notice_3)
+
+        binding.cancelButton.setOnClickListener {
+            onBackPressed()
+        }
+    }
+
+    fun showBarcodeDialog(){
+        barcodeDialog.show(supportFragmentManager, null)
     }
 }
 
@@ -115,6 +131,9 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
     private val VIEW_TYPE_COUPON = 1
     private val VIEW_TYPE_LAST = 2
 
+    var callbackPropagation: (() -> Unit)? = null
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         context = parent.context
 
@@ -125,6 +144,7 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
                 ConvertUtil.percentToPxWidth(0.86F).toInt(),
                 LinearLayout.LayoutParams.MATCH_PARENT).apply {
             leftMargin = ConvertUtil.percentToPxWidth(0.07F).toInt()
+            gravity = Gravity.CENTER
         }
 
         var couponParams = LinearLayoutCompat.LayoutParams(
@@ -151,9 +171,13 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
             else -> {
                 var binding = DataBindingUtil.inflate<ViewCouponBinding>(inflater, R.layout.view_coupon, parent, false)
                 binding.couponWrapper.apply {
-                    layoutParams =  if (viewType==VIEW_TYPE_COUPON) couponParams else couponLastParams
+                    layoutParams = if (viewType == VIEW_TYPE_COUPON) couponParams else couponLastParams
                 }
-                viewHolder = CouponViewHolder(binding as ViewCouponBinding, context)
+                viewHolder = CouponViewHolder(binding as ViewCouponBinding, context).apply {
+                    barcodeCallback = {
+                        callbackPropagation?.invoke()
+                    }
+                }
             }
         }
 
@@ -192,30 +216,21 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
             //TODO sharedPreference
             //var tempCount: Int = stampPref.count
             var tempCount: Int = 5
-            var endCount: Int = 9
-            for (x in 0..endCount) {
-                binding.couponGrid.apply {
-                    var resource: GridResource = StampResource(false)
-                    if (x < tempCount) resource = StampResource(true)
-                    else if (x == endCount) resource = GitfResource(false)
+            var childCount: Int = binding.couponGrid.childCount
 
-                    var tempImageView = ImageView(context)
-                    val params = GridLayout.LayoutParams(
-                            GridLayout.spec(GridLayout.UNDEFINED, GridLayout.CENTER, 1f),
-                            GridLayout.spec(GridLayout.UNDEFINED, GridLayout.CENTER, 1f))
-
-                    tempImageView.layoutParams = params.apply {
-                        if (x < 5) bottomMargin = ConvertUtil.dpToPx(30).toInt()
-                    }
-                    tempImageView.background = ContextCompat.getDrawable(context, resource.currentResourceId)
-
-                    binding.couponGrid.addView(tempImageView)
-                }
-            }
+            val STAMP_BLUE_RESOURCE_ID = R.drawable.img_stamp_blue
         }
     }
 
     class CouponViewHolder(private var binding: ViewCouponBinding, private var context: Context) : ItemViewHolder(binding, context) {
+        var barcodeCallback: (() -> Unit)? = null
+
+        init {
+            this.itemView.setOnClickListener {
+                barcodeCallback?.invoke()
+            }
+        }
+
         override fun bindData(data: StampCoupon) {
             var resources = ResourceUtil(context)
 
@@ -236,3 +251,9 @@ class StampPref(context: Context, name: String) : PreferenceModel(context, name)
 class CouponPref(context: Context, name: String) : PreferenceModel(context, name) {
     var list: Set<String> by stringSetPreference("list", emptySet())
 }
+
+class BarcodeDialog() : BaseDialogFragment<DialogBarcodeBinding>() {
+    override val resourceId: Int = R.layout.dialog_barcode
+}
+
+var drinkCallback: (() -> Unit)? = null

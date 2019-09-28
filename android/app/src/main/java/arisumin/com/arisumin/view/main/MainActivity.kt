@@ -149,7 +149,6 @@ class DrinkDialog : BaseDialogFragment<DialogDrinkBinding>() {
 
     override val resourceId = R.layout.dialog_drink
     var drinkCallback: (() -> Unit)? = null
-
     private val qrAcitivity by lazy {
         ArisuQR(this).apply {
             customize()
