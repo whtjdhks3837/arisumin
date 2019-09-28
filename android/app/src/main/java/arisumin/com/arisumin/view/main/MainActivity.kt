@@ -28,8 +28,9 @@ import arisumin.com.arisumin.view.start.ArisuInfoActivity
 import java.lang.IllegalStateException
 import android.widget.Toast
 import arisumin.com.arisumin.R
+import arisumin.com.arisumin.databinding.DialogStampSuccessBinding
+import arisumin.com.arisumin.util.ResourceUtil
 import com.google.zxing.integration.android.IntentIntegrator
-
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     override val resourceId = R.layout.activity_main
@@ -38,9 +39,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val pref by lazy { MainPref(this, PREF_NAME) }
     private var oneDrinkAmount = 0.0f
     private val drinkDialog = DrinkDialog()
+    private val stampSuccessDialog = StampSuccessDialog()
+
+
 
     private val cupLotties =
-            listOf("cup1.json", "cup2.json", "cup3.json", "cup4.json", "cup5.json")
+            listOf("cup/cup1.json", "cup/cup2.json", "cup/cup3.json", "cup/cup4.json", "cup/cup5.json")
 
     private var timerService: TimerService? = null
     private val onDayChangeCallback = {
@@ -50,6 +54,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             initInfo()
         }
         Unit
+    }
+
+    private val qrAcitivity by lazy {
+        ArisuQR(this).apply {
+            customize()
+        }
     }
 
     private val serviceConnection = object : ServiceConnection {
@@ -80,6 +90,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         binding.arisuStampBtn.setOnClickListener { startActivity<StampAcitivity>() }
         binding.arisuInfoBtn.setOnClickListener { startActivity<ArisuInfoActivity>() }
         drinkDialog.drinkCallback = onDrinkCallback()
+        drinkDialog.onQRStartCallback = onQRStartCallback()
+
+        stampSuccessDialog.onShowStampCallback = onShowStampCallback()
     }
 
     override fun onStart() {
@@ -91,6 +104,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onPause() {
         super.onPause()
         unbindService(serviceConnection)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (result != null) {
+            if (result.contents == null) {
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
+            } else {
+                //TODO 에러 & sharedPreference
+
+                showStampSuccessDialog()
+                Toast.makeText(this, "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     private fun updateCupLottie() {
@@ -137,23 +166,32 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         binding.figureStamp.text = htmlText(R.string.figure_stamp, pref.stamp)
     }
 
+    private fun showStampSuccessDialog(){
+         val fragmentManager = supportFragmentManager.beginTransaction()
+        fragmentManager.add(stampSuccessDialog, null)
+        fragmentManager.commitAllowingStateLoss()
+    }
+
     private fun onDrinkCallback(): () -> Unit = {
         pref.intake += oneDrinkAmount
         initInfo()
         updateCupLottie()
     }
 
+    private fun onQRStartCallback(): () -> Unit = {
+        qrAcitivity.start()
+    }
+
+    private fun onShowStampCallback(): () -> Unit = {
+        startActivity<StampAcitivity>()
+    }
 }
 
 class DrinkDialog : BaseDialogFragment<DialogDrinkBinding>() {
 
     override val resourceId = R.layout.dialog_drink
     var drinkCallback: (() -> Unit)? = null
-    private val qrAcitivity by lazy {
-        ArisuQR(this).apply {
-            customize()
-        }
-    }
+    var onQRStartCallback: (() -> Unit)? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -165,27 +203,46 @@ class DrinkDialog : BaseDialogFragment<DialogDrinkBinding>() {
         super.onViewCreated(view, savedInstanceState)
         binding.close.setOnClickListener { dismiss() }
         binding.qrBtn.setOnClickListener {
-            qrAcitivity.start()
+            dismiss()
+            onQRStartCallback?.invoke()
         }
         binding.drinkBtn.setOnClickListener {
             drinkCallback?.invoke()
             dismiss()
         }
     }
+}
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+class StampSuccessDialog : BaseDialogFragment<DialogStampSuccessBinding>() {
+    override val resourceId: Int = R.layout.dialog_stamp_success
+    var onShowStampCallback: (() -> Unit)? = null
+    private val stampLottie = "stamp/stamp.json"
 
-        if (result != null) {
-            if (result.contents == null) {
-                Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
-            } else {
-                Toast.makeText(context, "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        startStampLottie()
+        binding.cancelButton.setOnClickListener { dismiss() }
+        binding.okButton.setOnClickListener { dismiss() }
+        binding.startStampActivity.setOnClickListener {
+            onShowStampCallback?.invoke()
+        }
+        binding.stampSuccessText.text = ResourceUtil(context!!).convertHtml(R.string.stamp_success_text)
+    }
+
+
+    private fun startStampLottie(){
+        binding.stampLottie.apply{
+            setAnimation(stampLottie)
+            playAnimation()
         }
     }
+
 }
 
 class MainPref(context: Context, name: String) : PreferenceModel(context, name) {

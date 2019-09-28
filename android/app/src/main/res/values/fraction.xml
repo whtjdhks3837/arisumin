@@ -8,5 +8,6 @@
     <fraction name="stampHorizontalGuide1">0.22</fraction>
     <fraction name="stampCouponNoticeViewHeight">0.197</fraction>
 
-
+    <fraction name="stampImageWidth">0.133</fraction>
+    <fraction name="stampImageHeight">0.068</fraction>
 </resources>

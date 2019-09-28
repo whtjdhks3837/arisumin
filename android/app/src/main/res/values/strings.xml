@@ -64,5 +64,6 @@
     <string name="chlorine_info">잔류염소 0.1mg이상이 안전한 물,\n0.3mg이상은 소독제 냄새가 날 수 있어요</string>
     <string name="pH_info">물의 산성을 나타내는 말로\n아리수는 중성(7)에 가깝게 공급해요</string>
 
+    <string name="stamp_success_text"> <![CDATA[<big>아리 스탬프</big>가 찍혔습니다!]]></string>
 </resources>
 
