@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--ArisuInfo-->
+    <fraction name="arisuInfoViewPagerHorizontalGuide1">0.089</fraction>
+    <fraction name="arisuInfoViewPagerHorizontalGuide2">0.305</fraction>
+
+    <!--Stamp-->
+    <fraction name="stampHorizontalGuide1">0.22</fraction>
+    <fraction name="stampCouponNoticeViewHeight">0.22</fraction>
+
+</resources>
