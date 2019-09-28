@@ -24,4 +24,12 @@
     <dimen name="stampCouponSubTextBottomMargin">9dp</dimen>
     <dimen name="stampCouponNextButtonBottomMargin">25dp</dimen>
 
+    <!--barcode-->
+    <dimen name="barcodeDialogWidth">281dp</dimen>
+    <dimen name="barcodeDialogHeight">182dp</dimen>
+
+    <dimen name="barcodeDialogText">15sp</dimen>
+    <dimen name="barcodeDialogTextMargin">23dp</dimen>
+
+    <dimen name="barcodeDialogCancelMargin">10dp</dimen>
 </resources>

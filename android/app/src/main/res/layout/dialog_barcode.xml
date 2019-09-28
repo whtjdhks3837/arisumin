@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/stamp_barcode_bg"
+        android:minWidth="@dimen/barcodeDialogWidth"
+        android:minHeight="@dimen/barcodeDialogHeight">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/barcodeDialogCancelMargin"
+            android:layout_marginEnd="@dimen/barcodeDialogCancelMargin"
+            android:background="@drawable/icon_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/barcode_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/barcodeDialogTextMargin"
+            android:fontFamily="@font/notosans_regular"
+            android:text="2% 아쿠아"
+            android:textSize="@dimen/barcodeDialogText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/barcodeDialogTextMargin"
+            android:background="@drawable/img_barcode_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barcode_name" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

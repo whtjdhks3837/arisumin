@@ -6,7 +6,7 @@
         android:id="@+id/stamp_wrapper"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:background="@drawable/stamp_card_border"
+        android:background="@drawable/stamp_card_bg"
         android:elevation="2dp">
 
         <GridLayout

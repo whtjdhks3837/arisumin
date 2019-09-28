@@ -51,7 +51,7 @@
             android:id="@+id/remainder_notice_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/stamp_notice_border"
+            android:background="@drawable/stamp_notice_bg"
             android:paddingTop="8dp"
             android:paddingBottom="6dp"
             app:layout_constraintEnd_toEndOf="parent"
