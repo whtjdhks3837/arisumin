@@ -36,13 +36,13 @@ class StampAcitivity : BaseActivity<ActivityStampBinding>() {
 
     override val resourceId: Int = R.layout.activity_stamp
     private val statusBarColor by bindColor(R.color.colorSkyBlue)
-    private var barcodeDialog = BarcodeDialog()
+    private val barcodeDialog = BarcodeDialog()
 
     private val couponPref by lazy {
         CouponPref(this, "coupon_info")
     }
 
-    private var couponList = mutableListOf<Coupon>()
+    private val couponList = mutableListOf<Coupon>()
 
     private val testCouponString: String by lazy {
         "0/img_2_pro/barcode/2% 아쿠아 340ml/2019.09.18./CU"
@@ -87,7 +87,7 @@ class StampAcitivity : BaseActivity<ActivityStampBinding>() {
             layoutManager = LinearLayoutManager(this@StampAcitivity, LinearLayoutManager.HORIZONTAL, false)
 
             adapter = StampCouponRecyclerAdapter().apply {
-                callbackPropagation = { showBarcodeDialog() }
+                onPropagationCallback = { showBarcodeDialog() }
 
                 addItem(Stamp(5))
                 couponList.forEach {
@@ -122,16 +122,15 @@ class StampCouponRecyclerDecoration(private var dp: Int) : RecyclerView.ItemDeco
 
 class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapter.ItemViewHolder>() {
     private lateinit var context: Context
-    private var itemList: MutableList<StampCoupon> = mutableListOf()
+    private val itemList: MutableList<StampCoupon> = mutableListOf()
 
-    private lateinit var viewBinding: ViewDataBinding
     private lateinit var viewHolder: ItemViewHolder
 
     private val VIEW_TYPE_STAMP = 0
     private val VIEW_TYPE_COUPON = 1
     private val VIEW_TYPE_LAST = 2
 
-    var callbackPropagation: (() -> Unit)? = null
+    var onPropagationCallback: (() -> Unit)? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -174,8 +173,8 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
                     layoutParams = if (viewType == VIEW_TYPE_COUPON) couponParams else couponLastParams
                 }
                 viewHolder = CouponViewHolder(binding as ViewCouponBinding, context).apply {
-                    barcodeCallback = {
-                        callbackPropagation?.invoke()
+                    onBarcodeCallback = {
+                        onPropagationCallback?.invoke()
                     }
                 }
             }
@@ -214,20 +213,25 @@ class StampCouponRecyclerAdapter : RecyclerView.Adapter<StampCouponRecyclerAdapt
                 StampPref(context, "stamp_info")
             }
             //TODO sharedPreference
-            //var tempCount: Int = stampPref.count
-            var tempCount: Int = 5
-            var childCount: Int = binding.couponGrid.childCount
+            //var couponCount: Int = stampPref.count
+            val couponCount = 5
 
             val STAMP_BLUE_RESOURCE_ID = R.drawable.img_stamp_blue
+
+            for(i in 0 until couponCount){
+                binding.couponGrid.getChildAt(i).apply {
+                    background = ContextCompat.getDrawable(context, STAMP_BLUE_RESOURCE_ID)
+                }
+            }
         }
     }
 
     class CouponViewHolder(private var binding: ViewCouponBinding, private var context: Context) : ItemViewHolder(binding, context) {
-        var barcodeCallback: (() -> Unit)? = null
+        var onBarcodeCallback: (() -> Unit)? = null
 
         init {
             this.itemView.setOnClickListener {
-                barcodeCallback?.invoke()
+                onBarcodeCallback?.invoke()
             }
         }
 
@@ -255,5 +259,3 @@ class CouponPref(context: Context, name: String) : PreferenceModel(context, name
 class BarcodeDialog() : BaseDialogFragment<DialogBarcodeBinding>() {
     override val resourceId: Int = R.layout.dialog_barcode
 }
-
-var drinkCallback: (() -> Unit)? = null
