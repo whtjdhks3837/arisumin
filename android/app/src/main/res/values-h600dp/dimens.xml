@@ -7,8 +7,8 @@
     <dimen name="stampNoticeText">19sp</dimen>
     <dimen name="stampNoticeViewText">15sp</dimen>
 
-    <dimen name="stampStampWidth">56dp</dimen>
-    <dimen name="stampStampHeight">48dp</dimen>
+    <dimen name="stampStampWidth">48dp</dimen>
+    <dimen name="stampStampHeight">42dp</dimen>
     <dimen name="stampStampLeftMargin">11dp</dimen>
     <dimen name="stampStampBottomMargin">30dp</dimen>
 

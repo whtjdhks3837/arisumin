@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/dialog_stamp_success_bg"
+        android:minWidth="248dp"
+        android:minHeight="317dp">
+
+        <ImageView
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/icon_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/stamp_success_text"
+            android:layout_width="98dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="34dp"
+            android:fontFamily="@font/notosans_light"
+            android:gravity="center"
+            android:textColor="@color/colorDeepBlack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/stamp_lottie"
+            android:layout_width="248dp"
+            android:layout_height="248dp"
+            android:src="@drawable/img_popup_stamp"
+            android:scaleType="fitXY"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/start_stamp_activity"
+            app:lottie_imageAssetsFolder="stamp/images" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:background="#29000000"
+            app:layout_constraintBottom_toTopOf="@id/start_stamp_activity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/start_stamp_activity"
+            android:layout_width="166dp"
+            android:layout_height="51dp"
+            android:background="@drawable/stamp_success_button1_bg"
+            android:gravity="center"
+            android:text="스탬프 카드 보러가기"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/ok_button"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/stamp_success_button2_bg"
+            android:gravity="center"
+            android:text="확인"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/start_stamp_activity"
+            app:layout_constraintTop_toTopOf="@id/start_stamp_activity" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
