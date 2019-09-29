@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">arisumin</string>
+    <string name="app_name">아리수민</string>
     <string name="naver_map_client">lneq1jlqdb</string>
     <string name="map_info_address_simple">%1$s 음수대</string>
     <string name="map_info_address">%1$s</string>

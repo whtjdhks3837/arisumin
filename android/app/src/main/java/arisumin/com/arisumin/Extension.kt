@@ -3,6 +3,7 @@ package arisumin.com.arisumin
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -11,7 +12,9 @@ import android.util.Log
 import android.util.TypedValue
 import android.widget.Toast
 import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.annotation.XmlRes
 import androidx.core.content.ContextCompat
 
 infix fun Any.log(msg: String) = Log.i(this::class.java.simpleName, msg)
@@ -33,6 +36,10 @@ inline fun <reified T : Activity> Activity.startActivityWithFinish(bundle: Bundl
 
 fun Activity.bindColor(@ColorRes res: Int): Lazy<Int> = lazy {
     ContextCompat.getColor(this, res)
+}
+
+fun Activity.bindBackground(@DrawableRes res: Int): Lazy<Drawable?> = lazy {
+    ContextCompat.getDrawable(this, res)
 }
 
 fun Context.htmlText(@StringRes res: Int, vararg formatArgs: Any): Spanned =

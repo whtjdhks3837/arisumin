@@ -2,10 +2,14 @@ package arisumin.com.arisumin.view.map
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
 import arisumin.com.arisumin.R
+import arisumin.com.arisumin.bindBackground
+import arisumin.com.arisumin.bindColor
 import arisumin.com.arisumin.controller.MarkerManager
 import arisumin.com.arisumin.databinding.ActivityMapBinding
 import arisumin.com.arisumin.datasource.PREF_NAME
@@ -26,6 +30,8 @@ import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
+import java.util.Calendar
+import java.util.Calendar.*
 
 class MapActivity : BaseActivity<ActivityMapBinding>() {
 
@@ -50,6 +56,11 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
     private var naverMap: NaverMap? = null
     private var selectedMarker: Marker? = null
 
+    private val measureFitnessBg by bindBackground(R.drawable.map_info_measure_result_fitness_bg)
+    private val measureNotExistBg by bindBackground(R.drawable.map_info_measure_result_not_exist_bg)
+    private val measureFitnessColor by bindColor(R.color.colorDeepBlue)
+    private val measureNotExistColor by bindColor(R.color.colorSuvaGrey)
+
     private val iconMarkerOff = OverlayImage.fromResource(R.drawable.mappin_off)
     private val iconMarkerOn = OverlayImage.fromResource(R.drawable.mappin_on)
 
@@ -67,6 +78,8 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
     private val measureBtnGroup by lazy { binding.bottomSheet.measureBtnGroup }
     private val measureDetail by lazy { bottomSheet.measureDetail }
     private var graphAreaWidth = 0
+
+    private val calendar = getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -141,6 +154,8 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
                 }
                 measureBtnGroup.check(R.id.ntu_btn)
                 bindGraph(waterSpot, 0)
+                bindMeasureTime()
+                bindMeasureResult(waterSpot)
                 selectedMarker?.icon = iconMarkerOff
                 selectedMarker = it.apply { icon = iconMarkerOn }
             }
@@ -176,6 +191,32 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
         measureDetail.measureValue.text = measure?.toString() ?: "0"
         measure?.let { drawMeasureBar(it / measureInfos[index].maxValue) } ?: drawMeasureBar(0.01)
     }
+
+    private fun bindMeasureTime() {
+        val year = calendar.get(YEAR)
+        val month = String.format("%02d", calendar.get(MONTH) + 1)
+        val day = String.format("%02d", calendar.get(DAY_OF_MONTH))
+        bottomSheet.measureTime.text = "$year-$month-$day"
+    }
+
+    private fun bindMeasureResult(waterSpot: WaterSpot) {
+        bottomSheet.measureResult.apply {
+            val result = getMeasureResult(waterSpot)
+            text = result.first
+            background = result.second
+            setTextColor(result.third)
+        }
+    }
+
+    private fun getMeasureResult(waterSpot: WaterSpot) =
+            if (isExistMeasure(waterSpot)) {
+                Triple("마시기 적합", measureFitnessBg, measureFitnessColor)
+            } else {
+                Triple("수질 검사중", measureNotExistBg, measureNotExistColor)
+            }
+
+    private fun isExistMeasure(waterSpot: WaterSpot) =
+            waterSpot.ntu != null && waterSpot.chlorine != null && waterSpot.ph != null
 
     private fun drawMeasureBar(barWidthPer: Double) {
         measureDetail.bar.layoutParams.width = (graphAreaWidth * barWidthPer).toInt()
