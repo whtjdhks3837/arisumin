@@ -166,7 +166,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:text="2019-09-03 11:00"
                     android:textColor="@color/colorSoftBlack"
                     android:textSize="14dp"
                     app:layout_constraintBottom_toBottomOf="@id/text1"
@@ -186,10 +185,11 @@
                     app:layout_constraintTop_toBottomOf="@id/text1" />
 
                 <TextView
+                    android:id="@+id/measure_result"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="14dp"
-                    android:background="@drawable/map_info_measure_result_bg"
+                    android:background="@drawable/map_info_measure_result_fitness_bg"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
                     android:text="마시기 적합"
