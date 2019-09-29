@@ -10,9 +10,11 @@ object MarkerManager {
             Thread {
                 val makers = mutableListOf<Marker>()
                 waterSpots.forEach {
-                    makers += Marker().apply {
-                        position = LatLng(it.lat, it.lng)
-                        tag = it
+                    if (it.lat != null && it.lng != null) {
+                        makers += Marker().apply {
+                            position = LatLng(it.lat, it.lng)
+                            tag = it
+                        }
                     }
                 }
                 callback.invoke(makers)
