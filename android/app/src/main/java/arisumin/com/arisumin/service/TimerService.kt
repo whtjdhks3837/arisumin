@@ -27,6 +27,7 @@ class TimerService : Service() {
     private val runnable = Runnable {
         while (!isStop) {
             if (dateFormat.format(lastDate) != dateFormat.format(Date())) {
+                pref.intake = 0f
                 pref.date = System.currentTimeMillis()
                 lastDate.time = pref.date
                 callbacks.forEach { it.invoke() }
@@ -73,4 +74,5 @@ class TimerService : Service() {
 class TimePref(context: Context) : PreferenceModel(context, PREF_NAME) {
 
     var date by longPreference("date", System.currentTimeMillis())
+    var intake by floatPreference("intake", 0.0f)
 }
