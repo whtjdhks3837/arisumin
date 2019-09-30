@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/stamp_wrapper"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/stamp_card_bg"
+        android:elevation="2dp">
+
+        <GridLayout
+            android:id="@+id/coupon_grid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="5"
+            android:orientation="horizontal"
+            android:rowCount="2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!--First Row -->
+            <ImageView
+                android:layout_width="@dimen/stampStampWidth"
+                android:layout_height="@dimen/stampStampHeight"
+                android:layout_marginBottom="@dimen/stampStampBottomMargin"
+                android:background="@drawable/img_stamp_gray" />
+
+            <ImageView
+                android:layout_width="@dimen/stampStampWidth"
+                android:layout_height="@dimen/stampStampHeight"
+                android:layout_marginLeft="@dimen/stampStampLeftMargin"
+                android:layout_marginBottom="@dimen/stampStampBottomMargin"
+                android:background="@drawable/img_stamp_gray" />
+
+            <ImageView
+                android:layout_width="@dimen/stampStampWidth"
+                android:layout_height="@dimen/stampStampHeight"
+                android:layout_marginLeft="@dimen/stampStampLeftMargin"
+                android:layout_marginBottom="@dimen/stampStampBottomMargin"
+                android:background="@drawable/img_stamp_gray" />
+
+            <ImageView
+                android:layout_width="@dimen/stampStampWidth"
+                android:layout_height="@dimen/stampStampHeight"
+                android:layout_marginLeft="@dimen/stampStampLeftMargin"
+                android:layout_marginBottom="@dimen/stampStampBottomMargin"
+                android:background="@drawable/img_stamp_gray" />
+
+            <ImageView
+                android:layout_width="@dimen/stampStampWidth"
+                android:layout_height="@dimen/stampStampHeight"
+                android:layout_marginLeft="@dimen/stampStampLeftMargin"
+                android:layout_marginBottom="@dimen/stampStampBottomMargin"
+                android:background="@drawable/img_stamp_gray" />
+
+            <!--Second Row -->
+
+            <ImageView
+                android:layout_width="@dimen/stampStampWidth"
+                android:layout_height="@dimen/stampStampHeight"
+                android:background="@drawable/img_stamp_gray" />
+
+            <ImageView
+                android:layout_width="@dimen/stampStampWidth"
+                android:layout_height="@dimen/stampStampHeight"
+                android:layout_marginLeft="@dimen/stampStampLeftMargin"
+                android:background="@drawable/img_stamp_gray" />
+
+            <ImageView
+                android:layout_width="@dimen/stampStampWidth"
+                android:layout_height="@dimen/stampStampHeight"
+                android:layout_marginLeft="@dimen/stampStampLeftMargin"
+                android:background="@drawable/img_stamp_gray" />
+
+            <ImageView
+                android:layout_width="@dimen/stampStampWidth"
+                android:layout_height="@dimen/stampStampHeight"
+                android:layout_marginLeft="@dimen/stampStampLeftMargin"
+                android:background="@drawable/img_stamp_gray" />
+
+            <ImageView
+                android:layout_width="@dimen/stampStampWidth"
+                android:layout_height="@dimen/stampStampHeight"
+                android:layout_marginLeft="@dimen/stampStampLeftMargin"
+                android:background="@drawable/img_stamp_gray" />
+
+        </GridLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

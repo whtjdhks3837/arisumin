@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--ArisuInfo-->
+    <dimen name="arisuInfoTextSize">16sp</dimen>
+    <!--Stamp-->
+    <dimen name="stampRemainderNoticeTopMargin">1dp</dimen>
+    <dimen name="stampNoticeText">17sp</dimen>
+    <dimen name="stampNoticeViewText">11sp</dimen>
+
+    <dimen name="stampStampWidth">43dp</dimen>
+    <dimen name="stampStampHeight">38dp</dimen>
+    <dimen name="stampStampLeftMargin">9.7dp</dimen>
+    <dimen name="stampStampBottomMargin">20dp</dimen>
+
+    <dimen name="stampCouponNoticeViewMainText">11sp</dimen>
+    <dimen name="stampCouponNoticeViewSubText">8sp</dimen>
+    <dimen name="stampCouponNoticeViewMargin">14dp</dimen>
+    <dimen name="stampCouponNoticeViewTextBottomMargin">4dp</dimen>
+
+    <dimen name="stampCouponMainText">13sp</dimen>
+    <dimen name="stampCouponSubText">11sp</dimen>
+    <dimen name="stampCouponMainTextTopMargin">32dp</dimen>
+    <dimen name="stampCouponMainTextBottomMargin">15dp</dimen>
+    <dimen name="stampCouponSubTextBottomMargin">6dp</dimen>
+    <dimen name="stampCouponNextButtonBottomMargin">20dp</dimen>
+
+    <!--barcode-->
+    <dimen name="barcodeDialogWidth">247dp</dimen>
+    <dimen name="barcodeDialogHeight">160dp</dimen>
+
+    <dimen name="barcodeDialogText">12sp</dimen>
+    <dimen name="barcodeDialogTextMargin">21dp</dimen>
+
+    <dimen name="barcodeDialogCancelMargin">7dp</dimen>
+</resources>
