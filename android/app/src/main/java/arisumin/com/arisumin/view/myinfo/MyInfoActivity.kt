@@ -31,7 +31,7 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>() {
                 pref.name = binding.inputName.text.toString()
                 pref.weight = binding.inputWeight.text.toString().toInt()
                 pref.isSetting = true
-                startActivity<MainActivity>()
+                startActivityWithFinish<MainActivity>()
             }
         }
     }
