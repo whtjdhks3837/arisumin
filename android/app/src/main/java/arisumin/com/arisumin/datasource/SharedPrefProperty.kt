@@ -24,7 +24,7 @@ open class PreferenceModel(context: Context, name: String) {
     protected fun booleanPreference(key: String, default: Boolean = false) =
             BooleanSharedPrefProperty(key, default)
 
-    protected fun stringSetPreference(key: String, default: Set<String>) =
+    protected fun stringSetPreference(key: String, default: MutableSet<String>) =
             StringSetSharedPrefProperty(key, default)
   
     protected fun floatPreference(key: String, default: Float = -1.0f) =
@@ -85,14 +85,14 @@ class BooleanSharedPrefProperty(
 
 class StringSetSharedPrefProperty(
         private val key: String,
-        private val default: Set<String> = emptySet()
+        private val default: MutableSet<String> = mutableSetOf()
 ) : ReadWriteProperty<PreferenceModel, Set<String>> {
-    override fun getValue(thisRef: PreferenceModel, property: KProperty<*>): Set<String> {
-        return thisRef.pref.getStringSet(key, default) as Set<String>
+    override fun getValue(thisRef: PreferenceModel, property: KProperty<*>): MutableSet<String> {
+        return thisRef.pref.getStringSet(key, default) as MutableSet<String>
     }
 
     override fun setValue(thisRef: PreferenceModel, property: KProperty<*>, value: Set<String>) {
-        return thisRef.pref.edit().putStringSet(key, value).apply()
+        thisRef.pref.edit().putStringSet(key, value).apply()
     }
 }
 

@@ -42,8 +42,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val drinkDialog = DrinkDialog()
     private val stampSuccessDialog = StampSuccessDialog()
 
-
-
     private val cupLotties =
             listOf("cup/cup1.json", "cup/cup2.json", "cup/cup3.json", "cup/cup4.json", "cup/cup5.json")
 
@@ -55,6 +53,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             initInfo()
         }
         Unit
+    }
+
+    private val testCouponString: String by lazy {
+        "/img_2_pro/barcode/2% 아쿠아 340ml/2019.09.18./CU"
     }
 
     private val qrAcitivity by lazy {
@@ -81,9 +83,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        pref.stampCount = 9
         window.statusBarColor = statusBarColor
         AlarmController(applicationContext).init()
         oneDrinkAmount = String.format("%.1f", pref.onceDrinkAmount).toFloat()
+
         initInfo()
         updateCupLottie()
 
@@ -114,9 +118,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             if (result.contents == null) {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
             } else {
-                //TODO 에러 & sharedPreference
-
+                pref.intake += oneDrinkAmount
+                countStamp()
+                initInfo()
+                updateCupLottie()
                 showStampSuccessDialog()
+
                 Toast.makeText(this, "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
             }
         } else {
@@ -165,11 +172,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         binding.figureRecommend.text =
                 htmlText(R.string.figure_recommend, String.format("%.1f", pref.oneDayRecommend))
         binding.figureGoal.text = htmlText(R.string.figure_goal, pref.goal)
-        binding.figureStamp.text = htmlText(R.string.figure_stamp, pref.stamp)
+        binding.figureStamp.text = htmlText(R.string.figure_stamp, pref.stampCount)
     }
 
-    private fun showStampSuccessDialog(){
-         val fragmentManager = supportFragmentManager.beginTransaction()
+    private fun countStamp() {
+        pref.stampCount++
+
+        if (pref.stampCount >= 10) {
+            pref.stampCount = 0
+            pref.couponList = pref.couponList.apply {
+                add(pref.couponList.size.toString() + testCouponString)
+            }
+        }
+    }
+
+    private fun showStampSuccessDialog() {
+        val fragmentManager = supportFragmentManager.beginTransaction()
         fragmentManager.add(stampSuccessDialog, null)
         fragmentManager.commitAllowingStateLoss()
     }
@@ -251,8 +269,8 @@ class StampSuccessDialog : BaseDialogFragment<DialogStampSuccessBinding>() {
     }
 
 
-    private fun startStampLottie(){
-        binding.stampLottie.apply{
+    private fun startStampLottie() {
+        binding.stampLottie.apply {
             setAnimation(stampLottie)
             playAnimation()
         }
@@ -268,7 +286,8 @@ class MainPref(context: Context, name: String) : PreferenceModel(context, name) 
     var name by stringPreference("name", null)
     var weight by intPreference("weight", 0)
     var intake by floatPreference("intake", 0.0f)
-    var stamp by intPreference("stamp", 0)
+    var stampCount by intPreference("stampCount", 0)
+    var couponList: MutableSet<String> by stringSetPreference("couponList", mutableSetOf())
 
     val oneDayRecommend = weight * 0.03
     val onceDrinkAmount = oneDayRecommend / DRINK_PERIOD
