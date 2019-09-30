@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.BADGE_ICON_SMALL
 import arisumin.com.arisumin.R
 import arisumin.com.arisumin.controller.AlarmController
 import java.util.Calendar
@@ -51,9 +52,12 @@ class AlarmReceiver : BroadcastReceiver() {
             )
 
             notificationManager.notify(0, NotificationCompat.Builder(context, CHANNEL_ID).apply {
+                color = it.getColor(R.color.colorDeepBlue)
                 setSmallIcon(R.drawable.icon_main_01)
+                setBadgeIconType(BADGE_ICON_SMALL)
                 setAutoCancel(true)
-                setContentTitle("왕서운한수민")
+                setContentTitle("수수한")
+                setContentText("지금은 물 마실 시간!")
                 setContentIntent(pendingIntent)
             }.build())
         }

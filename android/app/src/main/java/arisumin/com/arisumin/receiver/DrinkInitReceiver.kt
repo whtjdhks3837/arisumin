@@ -13,8 +13,6 @@ class DrinkInitReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         context?.let {
             MainPref(it, PREF_NAME).intake = 0f
-            it toast ("drink init!!")
-            log("drink init!!!!")
         }
     }
 }
