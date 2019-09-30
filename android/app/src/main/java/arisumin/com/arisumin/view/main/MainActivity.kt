@@ -83,7 +83,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pref.stampCount = 9
         window.statusBarColor = statusBarColor
         AlarmController(applicationContext).init()
         oneDrinkAmount = String.format("%.1f", pref.onceDrinkAmount).toFloat()
@@ -123,8 +122,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 initInfo()
                 updateCupLottie()
                 showStampSuccessDialog()
-
-                Toast.makeText(this, "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data)
@@ -247,27 +244,13 @@ class StampSuccessDialog : BaseDialogFragment<DialogStampSuccessBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startStampLottie()
+        binding.stampSuccessText.text = ResourceUtil(context!!).convertHtml(R.string.stamp_success_text)
         binding.cancelButton.setOnClickListener { dismiss() }
         binding.okButton.setOnClickListener { dismiss() }
         binding.startStampActivity.setOnClickListener {
             onShowStampCallback?.invoke()
         }
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-        if (result != null) {
-            if (result.contents == null) {
-                Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
-            } else {
-                Toast.makeText(context, "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
-        binding.stampSuccessText.text = ResourceUtil(context!!).convertHtml(R.string.stamp_success_text)
-    }
-
 
     private fun startStampLottie() {
         binding.stampLottie.apply {
