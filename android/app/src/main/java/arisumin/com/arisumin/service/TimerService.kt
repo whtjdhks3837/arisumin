@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import arisumin.com.arisumin.datasource.PREF_NAME
 import arisumin.com.arisumin.datasource.PreferenceModel
-import arisumin.com.arisumin.log
 import java.text.DateFormat
 import java.util.Date
 
@@ -17,7 +16,7 @@ class TimerService : Service() {
 
     private val pref by lazy { TimePref(this) }
     private val dateFormat = DateFormat.getDateInstance()
-    private val lastDate by lazy { Date(pref.date) }
+    private lateinit var lastDate: Date
 
     private val binder = Binder()
     private val callbacks = mutableListOf<() -> Unit>()
@@ -26,10 +25,10 @@ class TimerService : Service() {
 
     private val runnable = Runnable {
         while (!isStop) {
-            if (dateFormat.format(lastDate) != dateFormat.format(Date())) {
+            if (dateFormat.format(lastDate) != dateFormat.format(Date(System.currentTimeMillis()))) {
                 pref.intake = 0f
                 pref.date = System.currentTimeMillis()
-                lastDate.time = pref.date
+                lastDate = Date(pref.date)
                 callbacks.forEach { it.invoke() }
             }
             try {
@@ -45,7 +44,7 @@ class TimerService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        lastDate
+        lastDate = Date(pref.date)
     }
 
     override fun onDestroy() {

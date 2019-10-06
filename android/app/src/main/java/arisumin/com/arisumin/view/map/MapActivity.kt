@@ -2,8 +2,6 @@ package arisumin.com.arisumin.view.map
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
@@ -30,8 +28,10 @@ import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
-import java.util.Calendar
-import java.util.Calendar.*
+import java.util.Calendar.DAY_OF_MONTH
+import java.util.Calendar.MONTH
+import java.util.Calendar.YEAR
+import java.util.Calendar.getInstance
 
 class MapActivity : BaseActivity<ActivityMapBinding>() {
 
@@ -111,7 +111,7 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
     }
 
     private fun initBottomSheet() = with(BottomSheetBehavior.from(bottomSheet.root)) {
-        peekHeight = toDp(this@MapActivity, DEFAULT_BOTTOM_SHEET_HEIGHT)
+        peekHeight = toDp(DEFAULT_BOTTOM_SHEET_HEIGHT)
         setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             @SuppressLint("SwitchIntDef")
             override fun onStateChanged(bs: View, newState: Int) {
@@ -174,21 +174,25 @@ class MapActivity : BaseActivity<ActivityMapBinding>() {
         pref.index = waterSpot.index
         val workingTime = distance / METER_PER_MIN
         val kcal = workingTime * MIN_PER_KCAL
-        bottomSheet.workingTime.text = getString(R.string.map_info_working_min, workingTime)
-        bottomSheet.kcal.text = getString(R.string.map_info_kcal, kcal)
-        bottomSheet.addressSimple.text = getString(R.string.map_info_address_simple, waterSpot.name)
-        bottomSheet.address.text = getString(R.string.map_info_address_simple, waterSpot.address)
-        bottomSheet.distance.text = getString(R.string.map_info_distance, distance)
-        bottomSheet.visitCount.text = getString(R.string.map_bottom_sheet_visit, pref.visitCount)
+        bottomSheet.apply {
+            this.workingTime.text = getString(R.string.map_info_working_min, workingTime)
+            this.kcal.text = getString(R.string.map_info_kcal, kcal)
+            this.addressSimple.text = getString(R.string.map_info_address_simple, waterSpot.name)
+            this.address.text = getString(R.string.map_info_address_simple, waterSpot.address)
+            this.distance.text = getString(R.string.map_info_distance, distance)
+            this.visitCount.text = getString(R.string.map_bottom_sheet_visit, pref.visitCount)
+        }
     }
 
     private fun bindGraph(waterSpot: WaterSpot, index: Int) {
         val safeArea = "${measureInfos[index].safeArea.first} ~ ${measureInfos[index].safeArea.second}"
         val measure = getMeasureValue(waterSpot, index)
-        measureDetail.info.text = measureInfos[index].info
-        measureDetail.species.text = measureInfos[index].name
-        measureDetail.safeArea.text = safeArea
-        measureDetail.measureValue.text = measure?.toString() ?: "0"
+        measureDetail.apply {
+            this.info.text = measureInfos[index].info
+            this.species.text = measureInfos[index].name
+            this.safeArea.text = safeArea
+            this.measureValue.text = measure?.toString() ?: "0"
+        }
         measure?.let { drawMeasureBar(it / measureInfos[index].maxValue) } ?: drawMeasureBar(0.01)
     }
 

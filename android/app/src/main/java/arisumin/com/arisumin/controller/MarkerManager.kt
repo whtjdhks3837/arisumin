@@ -8,16 +8,14 @@ object MarkerManager {
 
     fun createMarkers(waterSpots: List<WaterSpot>, callback: (List<Marker>) -> Unit) =
             Thread {
-                val makers = mutableListOf<Marker>()
-                waterSpots.forEach {
-                    if (it.lat != null && it.lng != null) {
-                        makers += Marker().apply {
-                            position = LatLng(it.lat, it.lng)
-                            tag = it
+                waterSpots.filter { it.lat != null && it.lng != null }
+                        .map {
+                            Marker().apply {
+                                position = LatLng(it.lat!!, it.lng!!)
+                                tag = it
+                            }
                         }
-                    }
-                }
-                callback.invoke(makers)
+                        .run { callback.invoke(this) }
             }.start()
 
     fun getDistance(start: LatLng, goal: LatLng): Int {

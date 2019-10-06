@@ -25,8 +25,6 @@ import arisumin.com.arisumin.view.base.BaseDialogFragment
 import arisumin.com.arisumin.view.base.BaseQR
 import arisumin.com.arisumin.view.map.MapActivity
 import arisumin.com.arisumin.view.start.ArisuInfoActivity
-import java.lang.IllegalStateException
-import android.widget.Toast
 import arisumin.com.arisumin.R
 import arisumin.com.arisumin.databinding.DialogStampSuccessBinding
 import arisumin.com.arisumin.util.ResourceUtil
@@ -43,11 +41,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val stampSuccessDialog = StampSuccessDialog()
 
     private val cupLotties =
-            listOf("cup/cup1.json", "cup/cup2.json", "cup/cup3.json", "cup/cup4.json", "cup/cup5.json")
+            listOf("cup/cup1.json", "cup/cup2.json", "cup/cup3.json", "cup/cup4.json",
+                    "cup/cup5.json")
 
     private var timerService: TimerService? = null
     private val onDayChangeCallback = {
-        pref.intake = 0f
         runOnUiThread {
             updateCupLottie()
             initInfo()
@@ -59,10 +57,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         "/img_2_pro/barcode/2% 아쿠아 340ml/2019.09.18./CU"
     }
 
-    private val qrAcitivity by lazy {
-        ArisuQR(this).apply {
-            customize()
-        }
+    private val qrActivity by lazy {
+        ArisuQR(this).apply { customize() }
     }
 
     private val serviceConnection = object : ServiceConnection {
@@ -94,7 +90,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         binding.arisuWaterSpotBtn.setOnClickListener { startActivity<MapActivity>() }
         binding.arisuStampBtn.setOnClickListener { startActivity<StampAcitivity>() }
         binding.arisuInfoBtn.setOnClickListener { startActivity<ArisuInfoActivity>() }
-        drinkDialog.drinkCallback = onDrinkCallback()
+        drinkDialog.onDrinkCallback = onDrinkCallback()
         drinkDialog.onQRStartCallback = onQRStartCallback()
 
         stampSuccessDialog.onShowStampCallback = onShowStampCallback()
@@ -113,19 +109,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-        if (result != null) {
-            if (result.contents == null) {
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
-            } else {
+        result?.let {
+            it.contents?.let {
                 pref.intake += oneDrinkAmount
-                countStamp()
+                increaseStamp()
                 initInfo()
                 updateCupLottie()
                 showStampSuccessDialog()
             }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
+        } ?: super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun updateCupLottie() {
@@ -172,21 +164,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         binding.figureStamp.text = htmlText(R.string.figure_stamp, pref.stampCount)
     }
 
-    private fun countStamp() {
-        pref.stampCount++
-
-        if (pref.stampCount >= 10) {
+    private fun increaseStamp() {
+        if (++pref.stampCount >= 10) {
             pref.stampCount = 0
             pref.couponList = pref.couponList.apply {
-                add(pref.couponList.size.toString() + testCouponString)
+                add("${pref.couponList.size} $testCouponString")
             }
         }
     }
 
     private fun showStampSuccessDialog() {
-        val fragmentManager = supportFragmentManager.beginTransaction()
-        fragmentManager.add(stampSuccessDialog, null)
-        fragmentManager.commitAllowingStateLoss()
+        supportFragmentManager.beginTransaction().apply {
+            add(stampSuccessDialog, null)
+            commitAllowingStateLoss()
+        }
     }
 
     private fun onDrinkCallback(): () -> Unit = {
@@ -196,7 +187,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun onQRStartCallback(): () -> Unit = {
-        qrAcitivity.start()
+        qrActivity.start()
     }
 
     private fun onShowStampCallback(): () -> Unit = {
@@ -207,14 +198,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 class DrinkDialog : BaseDialogFragment<DialogDrinkBinding>() {
 
     override val resourceId = R.layout.dialog_drink
-    var drinkCallback: (() -> Unit)? = null
+    var onDrinkCallback: (() -> Unit)? = null
     var onQRStartCallback: (() -> Unit)? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?): View {
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
+            savedInstanceState: Bundle?) =
+            super.onCreateView(inflater, container, savedInstanceState).apply {
+                dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -224,7 +215,7 @@ class DrinkDialog : BaseDialogFragment<DialogDrinkBinding>() {
             onQRStartCallback?.invoke()
         }
         binding.drinkBtn.setOnClickListener {
-            drinkCallback?.invoke()
+            onDrinkCallback?.invoke()
             dismiss()
         }
     }
@@ -236,7 +227,7 @@ class StampSuccessDialog : BaseDialogFragment<DialogStampSuccessBinding>() {
     private val stampLottie = "stamp/stamp.json"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+            savedInstanceState: Bundle?): View {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -244,7 +235,7 @@ class StampSuccessDialog : BaseDialogFragment<DialogStampSuccessBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startStampLottie()
-        binding.stampSuccessText.text = ResourceUtil(context!!).convertHtml(R.string.stamp_success_text)
+        binding.stampSuccessText.text = context?.htmlText(R.string.stamp_success_text)
         binding.cancelButton.setOnClickListener { dismiss() }
         binding.okButton.setOnClickListener { dismiss() }
         binding.startStampActivity.setOnClickListener {
@@ -270,7 +261,7 @@ class MainPref(context: Context, name: String) : PreferenceModel(context, name) 
     var weight by intPreference("weight", 0)
     var intake by floatPreference("intake", 0.0f)
     var stampCount by intPreference("stampCount", 0)
-    var couponList: MutableSet<String> by stringSetPreference("couponList", mutableSetOf())
+    var couponList by stringSetPreference("couponList", mutableSetOf())
 
     val oneDayRecommend = weight * 0.03
     val onceDrinkAmount = oneDayRecommend / DRINK_PERIOD

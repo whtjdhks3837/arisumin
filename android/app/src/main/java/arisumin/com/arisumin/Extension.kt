@@ -14,15 +14,14 @@ import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.annotation.XmlRes
 import androidx.core.content.ContextCompat
 
 infix fun Any.log(msg: String) = Log.i(this::class.java.simpleName, msg)
 
 infix fun Context.toast(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 
-fun toDp(context: Context, size: Float) = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP, size, context.resources.displayMetrics
+infix fun Context.toDp(size: Float) = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP, size, resources.displayMetrics
 ).toInt()
 
 inline fun <reified T : Activity> Activity.startActivity(bundle: Bundle? = null) {

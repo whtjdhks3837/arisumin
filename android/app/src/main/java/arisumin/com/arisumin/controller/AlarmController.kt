@@ -7,7 +7,7 @@ import android.app.PendingIntent.FLAG_CANCEL_CURRENT
 import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
-import android.os.SystemClock
+import androidx.core.app.AlarmManagerCompat
 import java.util.Calendar
 
 class AlarmController(private val context: Context) {
@@ -21,7 +21,8 @@ class AlarmController(private val context: Context) {
         val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
         val sender = PendingIntent.getBroadcast(context.applicationContext, REQ_CODE, Intent(
                 ACTION_NAME), FLAG_CANCEL_CURRENT)
-        alarmManager.setExactAndAllowWhileIdle(RTC_WAKEUP, SystemClock.elapsedRealtime() + 5000, sender)
+//        AlarmManagerCompat.setExactAndAllowWhileIdle(alarmManager, RTC_WAKEUP, 5000, sender)
+//        alarmManager.setExactAndAllowWhileIdle(RTC_WAKEUP, 5000, sender)
 //        alarmManager.setInexactRepeating(RTC_WAKEUP, getTriggerTime(),
 //                AlarmManager.INTERVAL_HOUR * 2 + AlarmManager.INTERVAL_FIFTEEN_MINUTES, sender)
     }
