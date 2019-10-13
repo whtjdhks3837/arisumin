@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/notosans_semi_bold"
-            android:text="ARISUMIN"
+            android:text="SUSUHAN"
             android:textColor="@color/colorBlue"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="@id/guideline6"
@@ -232,10 +232,10 @@
                 app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
             <TextView
+                android:id="@+id/map_btn_info_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/notosans_light"
-                android:text="아리수를 마시고 스탬프를 모아보세요"
                 android:textColor="@color/colorMatterhorn"
                 android:textSize="11sp"
                 app:layout_constraintStart_toStartOf="@+id/textView"
@@ -287,17 +287,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/notosans_regular"
-                android:text="아리 스탬프 보러가기"
+                android:text="수수한 스탬프 보러가기"
                 android:textColor="@color/colorDeepBlack"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/guideline11"
                 app:layout_constraintTop_toTopOf="@+id/guideline9" />
 
             <TextView
+                android:id="@+id/stamp_btn_info_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/notosans_light"
-                android:text="아리수를 마시면 선물이 쏟아져요"
                 android:textColor="@color/colorMatterhorn"
                 android:textSize="11sp"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
@@ -347,17 +347,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/notosans_regular"
-                android:text="아리수의 효능"
+                android:text="K-water의 효능"
                 android:textColor="@color/colorDeepBlack"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/guideline14"
                 app:layout_constraintTop_toTopOf="@+id/guideline12" />
 
             <TextView
+                android:id="@+id/water_info_btn_info_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/notosans_light"
-                android:text="아리수에 대해 함께 알아볼까요?"
                 android:textColor="@color/colorMatterhorn"
                 android:textSize="11sp"
                 app:layout_constraintStart_toStartOf="@+id/textView3"

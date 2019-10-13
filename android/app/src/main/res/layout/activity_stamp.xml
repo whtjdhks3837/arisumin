@@ -168,7 +168,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
                     android:fontFamily="@font/notosans_semi_bold"
-                    android:text="아리 쿠폰 적립 이용 안내"
+                    android:text="수수한 쿠폰 적립 이용 안내"
                     android:textColor="@color/colorDeepBlack"
                     android:textSize="@dimen/stampCouponNoticeViewMainText"
                     app:layout_constraintStart_toStartOf="parent"

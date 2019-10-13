@@ -3,22 +3,22 @@
     <string name="naver_map_client">lneq1jlqdb</string>
     <string name="map_info_address_simple">%1$s 음수대</string>
     <string name="map_info_address">%1$s</string>
-    <string name="map_info_distance">%1$dm 떨어진 곳에 아리수 음수대가 있어요!</string>
+    <string name="map_info_distance">%1$dm 떨어진 곳에 음수대가 있어요!</string>
     <string name="map_info_working_min">걸음 %1$d분</string>
     <string name="map_info_kcal">약 %1$dkcal 소모</string>
     <string name="arisu_info_page_1_description">
-        <![CDATA[아리수는 고구려 때 한강을 부르던 말로<br>
-         평생을 마셔도 좋은<br>
-         <b><font color=#5a86e0>서울시 수돗물</font></b>의 이름입니다.]]>
+        <![CDATA[<b><font color=#5a86e0>K-water</font></b>는 수재해 대응력 강화 및<br>
+        수자원 시설 안정성 강화 사업 추진으로<br>
+        재난·재해에 강한 국토를 조성하고 있습니다.]]>
     </string>
     <string name="arisu_info_page_2_description">
-        <![CDATA[<b><font color=#5a86e0>수질자동감시시스템(SWN)을 통해</font></b><br>
-        건강하고 깨끗하게 운영되고 있고<br>
-        실시간으로 수질정보를 얻을 수 있어요.]]>
+        <![CDATA[<b><font color=#5a86e0>K-water</font></b>는 강우에서부터 유역 및 하천으로<br>
+        유입되는 물을 효율적으로 이용·관리하는<br>
+        <b><font color=#5a86e0>통합물관리</font></b>를 수행하고 있습니다.]]>
     </string>
     <string name="arisu_info_page_3_description">
-        <![CDATA[무거운 물병을 들고 다니지 않아도<br>
-        <b><font color=#5a86e0>시원한 물</font></b>을 마실 수 있어요.]]>
+        <![CDATA[<b><font color=#5a86e0>SUSUHAN</font></b>과 함께 K-water가 제공하는<br>
+        깨끗하고 시원한 물을 마셔보세요.]]>
     </string>
     <string name="remainder_notice">
         <![CDATA[<b><font color=#313131>{}</font></b>번 더 마시면]]>
@@ -53,7 +53,10 @@
     <string name="map_non_click_marker">
         <font color="#262626"><b><big>음수대를 선택해주세요.\n</big></b></font>음수대에서 아리수를 마시고 스탬프를 얻어보세요
     </string>
-    <string name="main_my_info"><b>%1$s</b> 님 반갑습니다!\n아리수와 함께 건강해지세요</string>
+    <string name="main_my_info"><b>%1$s</b> 님 반갑습니다!\nK-water와 함께 건강해지세요</string>
+    <string name="main_find_map_info"><![CDATA[<font color=#5a86e0>K-water</font>를 마시고 스탬프를 모아보세요]]></string>
+    <string name="main_go_stamp_info"><![CDATA[<font color=#5a86e0>K-water</font>를 마시면 선물이 쏟아져요]]></string>
+    <string name="main_go_water_info"><![CDATA[<font color=#5a86e0>K-water</font>에 대해 함께 알아볼까요?]]></string>
     <string name="remaining_intake">%1$f%</string>
     <string name="figure_intake"><![CDATA[<font color="#5a86e0"><big><big><big>%1$s</big></big></big></font> L]]></string>
     <string name="figure_recommend"><![CDATA[<font color="#5a86e0"><big><big><big>%1$s</big></big></big></font> L]]></string>

@@ -162,6 +162,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 htmlText(R.string.figure_recommend, String.format("%.1f", pref.oneDayRecommend))
         binding.figureGoal.text = htmlText(R.string.figure_goal, pref.goal)
         binding.figureStamp.text = htmlText(R.string.figure_stamp, pref.stampCount)
+        binding.mapBtnInfoText.text = htmlText(R.string.main_find_map_info)
+        binding.stampBtnInfoText.text = htmlText(R.string.main_go_stamp_info)
+        binding.waterInfoBtnInfoText.text = htmlText(R.string.main_go_water_info)
     }
 
     private fun increaseStamp() {
